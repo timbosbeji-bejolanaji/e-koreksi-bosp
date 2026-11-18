@@ -38,6 +38,7 @@
     .status-box-red { background-color: #fef2f2 !important; color: #991b1b !important; border: 1px solid #fecaca !important; }
     .cell-green { background-color: #10b981 !important; color: #fff !important; font-weight: 600; text-align: center; cursor: pointer; }
     .cell-red { background-color: #ef4444 !important; color: #fff !important; font-weight: 600; text-align: center; cursor: pointer; }
+    .cell-green:hover, .cell-red:hover { opacity: 0.88; }
     .form-control, .form-select { border-radius: 10px; border-color: #cbd5e1; font-size: 0.9rem; }
     .table-input-sm input { font-size: 0.84rem; padding: 0.35rem 0.55rem; border-radius: 7px; }
     .paper-choice { border: 2px solid #e2e8f0; border-radius: 12px; padding: 12px; cursor: pointer; }
@@ -117,9 +118,27 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
-            <li class="nav-item"><a class="nav-link active" id="navDashboard" href="#" onclick="switchView('dashboard');return false;"><i class="bi bi-grid-1x2 me-1"></i> Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" id="navPelaporan" href="#" onclick="switchView('pelaporan');return false;"><i class="bi bi-pencil-square me-1"></i> Pelaporan (Jan - Des)</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" onclick="openPrintModal();return false;"><i class="bi bi-printer me-1"></i> Cetak Laporan</a></li>
+            <li class="nav-item">
+              <a class="nav-link active" id="navDashboard" href="#" onclick="switchView('dashboard');return false;">
+                <i class="bi bi-grid-1x2 me-1"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="navPelaporan" href="#" onclick="switchView('pelaporan');return false;">
+                <i class="bi bi-pencil-square me-1"></i> Pelaporan (Jan - Des)
+              </a>
+            </li>
+            <!-- Menu Khusus Tim BOS: Monitoring Upload SPJ -->
+            <li class="nav-item d-none" id="navSpjMonitorItem">
+              <a class="nav-link" id="navSpjMonitor" href="#" onclick="switchView('spjMonitor');return false;">
+                <i class="bi bi-cloud-check me-1"></i> Monitoring Upload SPJ
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="openPrintModal();return false;">
+                <i class="bi bi-printer me-1"></i> Cetak Laporan
+              </a>
+            </li>
           </ul>
           <div class="d-flex align-items-center gap-3">
             <div class="text-end d-none d-sm-block">
@@ -133,7 +152,7 @@
     </nav>
 
     <div class="container-fluid px-4 py-4" style="max-width: 1440px;">
-      <!-- DASHBOARD LEMBAGA -->
+      <!-- VIEW 1: DASHBOARD LEMBAGA -->
       <div id="viewDashboardLembaga" class="d-none">
         <div class="row g-4">
           <div class="col-lg-5">
@@ -166,7 +185,7 @@
               <div class="card-body">
                 <div class="row g-2.5" id="lembagaMonthStatusGrid"></div>
                 <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
-                  <span class="text-muted small"><i class="bi bi-hand-index-thumb me-1"></i>Klik bulan untuk input/edit laporan.</span>
+                  <span class="text-muted small"><i class="bi bi-hand-index-thumb me-1"></i>Klik bulan untuk input laporan atau upload berkas SPJ.</span>
                   <button class="btn btn-outline-primary btn-sm" onclick="openPrintModal()"><i class="bi bi-printer me-1"></i> Cetak / Unduh Laporan</button>
                 </div>
               </div>
@@ -201,7 +220,7 @@
         </div>
       </div>
 
-      <!-- DASHBOARD TIM BOS -->
+      <!-- VIEW 2: DASHBOARD TIM BOS -->
       <div id="viewDashboardTimBOS" class="d-none">
         <div class="card card-elegant mb-4">
           <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
@@ -217,7 +236,10 @@
         </div>
         <div class="card card-elegant">
           <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span><i class="bi bi-grid-3x3-gap text-success me-2"></i>Monitoring Status Pelaporan Lembar Koreksi BOSP (Jan - Des 2026)</span>
+            <span><i class="bi bi-grid-3x3-gap text-success me-2"></i>Monitoring Status Input Lembar Koreksi BOSP (Jan - Des 2026)</span>
+            <button class="btn btn-primary btn-sm" onclick="switchView('spjMonitor')">
+              <i class="bi bi-cloud-check me-1"></i> Lihat Monitoring Upload Berkas SPJ
+            </button>
           </div>
           <div class="card-body p-0">
             <div class="table-responsive"><table class="table table-bordered table-hover table-sm mb-0 align-middle" style="font-size: 0.81rem;">
@@ -230,7 +252,91 @@
         </div>
       </div>
 
-      <!-- VIEW PELAPORAN -->
+      <!-- VIEW 3: MONITORING UPLOAD BERKAS SPJ (KHUSUS TIM BOS) -->
+      <div id="viewSpjMonitorTimBOS" class="d-none">
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="card card-elegant h-100 border-start border-4 border-primary">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="text-muted small fw-semibold">Total Lembaga Kecamatan Beji</div>
+                  <div class="fs-3 fw-bold text-dark mt-1" id="spjStatTotalSchools">32 Lembaga</div>
+                </div>
+                <div class="bg-primary-subtle text-primary rounded-3 p-3 fs-4"><i class="bi bi-buildings"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-elegant h-100 border-start border-4 border-success">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="text-muted small fw-semibold">Total Berkas SPJ Terunggah (Tahun 2026)</div>
+                  <div class="fs-3 fw-bold text-success mt-1" id="spjStatUploadedTotal">0 Berkas</div>
+                </div>
+                <div class="bg-success-subtle text-success rounded-3 p-3 fs-4"><i class="bi bi-file-earmark-check"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card card-elegant h-100 border-start border-4 border-warning">
+              <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="text-muted small fw-semibold">Akses Folder Google Drive SPJ</div>
+                  <div class="mt-2">
+                    <a href="#" target="_blank" id="btnOpenDriveFolder" class="btn btn-outline-dark btn-sm">
+                      <i class="bi bi-folder2-open me-1"></i> Buka Folder Drive
+                    </a>
+                    <button class="btn btn-primary btn-sm ms-1" onclick="loadSPJMonitoring(true)">
+                      <i class="bi bi-arrow-clockwise me-1"></i> Segarkan Data
+                    </button>
+                  </div>
+                </div>
+                <div class="bg-warning-subtle text-warning-emphasis rounded-3 p-3 fs-4"><i class="bi bi-google"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grafik Progres Upload SPJ Per Bulan -->
+        <div class="card card-elegant mb-4">
+          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <span><i class="bi bi-bar-chart-steps text-primary me-2"></i>Grafik Monitoring Upload Berkas SPJ Per Bulan (2026)</span>
+            <span class="small text-muted">Perbandingan jumlah lembaga yang Sudah Upload vs Belum Upload</span>
+          </div>
+          <div class="card-body">
+            <div style="height: 290px;"><canvas id="spjUploadChart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Tabel Matriks Monitoring Upload SPJ (Jan - Des) -->
+        <div class="card card-elegant">
+          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <span><i class="bi bi-cloud-arrow-up text-success me-2"></i>Matriks Status Upload Berkas SPJ Lembaga (Januari – Desember 2026)</span>
+            <div class="small">
+              <span class="badge bg-success me-1">Hijau = Sudah Upload (Klik untuk buka file)</span>
+              <span class="badge bg-danger">Merah = Belum Upload</span>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-sm mb-0 align-middle" style="font-size: 0.81rem;">
+                <thead class="table-dark text-center">
+                  <tr>
+                    <th width="3%">No</th>
+                    <th class="text-start">Nama Lembaga</th>
+                    <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>Mei</th><th>Jun</th>
+                    <th>Jul</th><th>Agu</th><th>Sep</th><th>Okt</th><th>Nop</th><th>Des</th>
+                    <th width="8%">Total Upload</th>
+                  </tr>
+                </thead>
+                <tbody id="spjMonitorMatrixBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 4: PELAPORAN -->
       <div id="viewPelaporan" class="d-none">
         <div class="card card-elegant mb-3">
           <div class="card-body">
@@ -259,7 +365,7 @@
         <div class="card card-elegant mb-3 border-primary-subtle d-none" id="uploadSPJPanel">
           <div class="card-header bg-primary-subtle text-primary d-flex justify-content-between align-items-center">
             <span><i class="bi bi-cloud-arrow-up-fill me-2"></i>Upload Berkas / Scan SPJ (PDF / Foto)</span>
-            <span class="small text-muted">Masuk ke Google Drive Kecamatan</span>
+            <span class="small text-muted">Tersimpan otomatis sesuai Nama Lembaga & Bulan</span>
           </div>
           <div class="card-body">
             <div class="row align-items-center g-3">
@@ -358,10 +464,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // URL Web App Google Apps Script Anda
     const GAS_URL = "https://script.google.com/macros/s/AKfycbw4bH6X8Rr2D7FpkiRFz3E--gAEhgpW21vyezMj360aDPZTHwFcDJH_Tt35q9i0vlOSqw/exec";
 
-    // Daftar 32 Lembaga dari Sheet Pagu 2026 (Langsung tampil instan 0 detik tanpa tunggu loading!)
     const DEFAULT_SCHOOLS = [
       "SDN BAUJENG I BEJI", "SDN BAUJENG II BEJI", "SDN BEJI I BEJI", "SDN BEJI II BEJI",
       "SDN BEJI IV BEJI", "SDN CANGKRINGMALANG I BEJI", "SDN CANGKRINGMALANG II BEJI",
@@ -379,11 +483,11 @@
     let schoolListCache = [...DEFAULT_SCHOOLS];
     let timbosDashboardCache = null;
     let tarTunChartInstance = null;
+    let spjUploadChartInstance = null;
     let currentReportMeta = null;
     let selectedExportFormat = 'PDF';
     let printModalInstance = null;
 
-    // Deteksi Otomatis: Apakah dibuka langsung dari link Google Apps Script atau dari GitHub/Netlify
     const IS_GAS_NATIVE = (typeof google !== 'undefined' && google.script && google.script.run);
 
     function populateSchoolDropdown(schools) {
@@ -401,7 +505,6 @@
       if (currentVal) sel.value = currentVal;
     }
 
-    // Jembatan Komunikasi Hibrida (Otomatis pilih jalur tercepat & bebas error)
     async function callGAS(action, payload = {}) {
       if (IS_GAS_NATIVE) {
         return new Promise((resolve) => {
@@ -433,10 +536,8 @@
         printModalInstance = new bootstrap.Modal(modalEl);
       }
 
-      // 1. Langsung tampilkan 32 sekolah secara instan agar pengguna tidak menunggu!
       populateSchoolDropdown(DEFAULT_SCHOOLS);
 
-      // 2. Sinkronisasi di latar belakang jika ada penambahan sekolah baru di sheet Pagu 2026
       try {
         if (IS_GAS_NATIVE) {
           google.script.run
@@ -449,9 +550,7 @@
           const schools = await response.json();
           if (Array.isArray(schools) && schools.length > 0) populateSchoolDropdown(schools);
         }
-      } catch (e) {
-        // Tetap aman karena DEFAULT_SCHOOLS sudah terisi
-      }
+      } catch (e) {}
     };
 
     function showLoading(text) {
@@ -498,6 +597,9 @@
       document.getElementById('userBadge').innerText = res.name;
       document.getElementById('roleSubtitle').innerText = res.role === 'TIMBOS' ? 'Verifikator Kecamatan' : 'NPSN: ' + (res.profile ? res.profile.npsn : '-');
 
+      // Tampilkan menu Monitoring Upload SPJ hanya untuk Tim BOS
+      document.getElementById('navSpjMonitorItem').classList.toggle('d-none', res.role !== 'TIMBOS');
+
       if (res.role === 'TIMBOS') {
         document.getElementById('timbosReportSchoolCol').classList.remove('d-none');
         const repSchoolSel = document.getElementById('reportSchoolSelect');
@@ -525,8 +627,12 @@
     function switchView(viewName) {
       document.getElementById('navDashboard').classList.toggle('active', viewName === 'dashboard');
       document.getElementById('navPelaporan').classList.toggle('active', viewName === 'pelaporan');
+      const navSpj = document.getElementById('navSpjMonitor');
+      if (navSpj) navSpj.classList.toggle('active', viewName === 'spjMonitor');
+
       document.getElementById('viewDashboardLembaga').classList.add('d-none');
       document.getElementById('viewDashboardTimBOS').classList.add('d-none');
+      document.getElementById('viewSpjMonitorTimBOS').classList.add('d-none');
       document.getElementById('viewPelaporan').classList.add('d-none');
 
       if (viewName === 'dashboard') {
@@ -537,6 +643,9 @@
           document.getElementById('viewDashboardTimBOS').classList.remove('d-none');
           loadDashboardTimBOS();
         }
+      } else if (viewName === 'spjMonitor' && currentUser.role === 'TIMBOS') {
+        document.getElementById('viewSpjMonitorTimBOS').classList.remove('d-none');
+        loadSPJMonitoring(false);
       } else if (viewName === 'pelaporan') {
         document.getElementById('viewPelaporan').classList.remove('d-none');
         loadLaporanData();
@@ -626,6 +735,97 @@
           datasets: [{ label: 'Rencana Tarik Tunai (Rp)', data: datasetValues, backgroundColor: 'rgba(37, 99, 235, 0.82)', borderRadius: 8 }]
         },
         options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { callback: v => 'Rp ' + v.toLocaleString('id-ID') } } } }
+      });
+    }
+
+    // ==================== FUNGSI MONITORING UPLOAD SPJ (KHUSUS TIM BOS) ====================
+    async function loadSPJMonitoring(forceRefresh) {
+      showLoading('Memindai berkas SPJ lembaga di Google Drive...');
+      const res = await callGAS('getSPJMonitoringData', { forceRefresh: !!forceRefresh });
+      hideLoading();
+
+      if (!res || !res.success) {
+        alert('Gagal memuat data monitoring SPJ: ' + (res ? res.message : 'Error tidak diketahui'));
+        return;
+      }
+
+      document.getElementById('spjStatTotalSchools').innerText = res.totalSchools + ' Lembaga';
+      const totalUploadedFiles = res.uploadedPerMonth.reduce((a, b) => a + b, 0);
+      document.getElementById('spjStatUploadedTotal').innerText = totalUploadedFiles + ' Laporan Bulan';
+
+      const btnFolder = document.getElementById('btnOpenDriveFolder');
+      if (res.folderUrl) {
+        btnFolder.href = res.folderUrl;
+        btnFolder.classList.remove('disabled');
+      }
+
+      // Render Grafik Progres Upload SPJ
+      if (spjUploadChartInstance) spjUploadChartInstance.destroy();
+      spjUploadChartInstance = new Chart(document.getElementById('spjUploadChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: res.months,
+          datasets: [
+            {
+              label: 'Sudah Upload SPJ (Lembaga)',
+              data: res.uploadedPerMonth,
+              backgroundColor: 'rgba(16, 185, 129, 0.85)',
+              borderRadius: 6
+            },
+            {
+              label: 'Belum Upload SPJ (Lembaga)',
+              data: res.notUploadedPerMonth,
+              backgroundColor: 'rgba(239, 68, 68, 0.75)',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: res.totalSchools,
+              ticks: { stepSize: 4 }
+            }
+          }
+        }
+      });
+
+      // Render Tabel Matriks SPJ
+      const tbody = document.getElementById('spjMonitorMatrixBody');
+      tbody.innerHTML = '';
+
+      res.schools.forEach((school, idx) => {
+        let cellsHtml = '';
+        let schoolUploadCount = 0;
+
+        res.months.forEach(m => {
+          const info = res.spjMatrix[school] && res.spjMatrix[school][m]
+            ? res.spjMatrix[school][m]
+            : { uploaded: false, count: 0, fileUrl: '' };
+
+          if (info.uploaded) {
+            schoolUploadCount++;
+            cellsHtml += `<td class="cell-green" title="Klik untuk melihat file: ${escapeHtml(info.fileName)}" onclick="window.open('${info.fileUrl}', '_blank')"><i class="bi bi-file-earmark-check me-1"></i>Sudah</td>`;
+          } else {
+            cellsHtml += `<td class="cell-red" title="Belum ada berkas SPJ ${school} bulan ${m}">Belum</td>`;
+          }
+        });
+
+        const badgeClass = schoolUploadCount === 12
+          ? 'bg-success text-white'
+          : (schoolUploadCount > 0 ? 'bg-primary-subtle text-primary border' : 'bg-danger-subtle text-danger border');
+
+        tbody.innerHTML += `
+          <tr>
+            <td class="text-center">${idx + 1}</td>
+            <td class="fw-semibold text-nowrap">${school}</td>
+            ${cellsHtml}
+            <td class="text-center"><span class="badge ${badgeClass}">${schoolUploadCount} / 12 Bulan</span></td>
+          </tr>
+        `;
       });
     }
 
