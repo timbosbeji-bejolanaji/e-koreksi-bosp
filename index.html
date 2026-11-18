@@ -1,4 +1,4 @@
-// Ganti URL di bawah ini dengan URL Web App Google Apps Script Anda yang baru
+// URL Web App Google Apps Script Anda
 const GAS_URL = "https://script.google.com/macros/s/AKfycbxiaXSoNmusTQLM0A879FcM6DfjbXouz6apLGwQdksx6dczJ7T3gQgYpWx0GRjKRS4ZgA/exec"; 
 
 async function callGAS(action, payload = {}) {
@@ -15,7 +15,7 @@ async function callGAS(action, payload = {}) {
   }
 }
 
-// CONTOH SAAT MEMUAT LIST SEKOLAH DI AWAL (Login)
+// Saat halaman dimuat, ambil daftar sekolah dari GAS via GET
 window.onload = function() {
   showLoading('Menghubungkan ke server...');
   fetch(GAS_URL + "?action=getSchoolList")
@@ -35,19 +35,26 @@ window.onload = function() {
     });
 };
 
-// CONTOH SAAT LOGIN
+// Proses Login Lembaga / Tim BOS
 async function handleLogin(e, role) {
   e.preventDefault();
+  const alertBox = document.getElementById('loginAlert');
+  alertBox.classList.add('d-none');
+
   showLoading('Memverifikasi akun...');
   
-  const username = role === 'LEMBAGA' ? document.getElementById('selectSchool').value : document.getElementById('userTimbos').value;
-  const password = role === 'LEMBAGA' ? document.getElementById('passLembaga').value : document.getElementById('passTimbos').value;
+  const username = role === 'LEMBAGA' 
+    ? document.getElementById('selectSchool').value 
+    : document.getElementById('userTimbos').value;
+  
+  const password = role === 'LEMBAGA' 
+    ? document.getElementById('passLembaga').value 
+    : document.getElementById('passTimbos').value;
 
   const res = await callGAS('login', { role, username, password });
   hideLoading();
 
   if (!res.success) {
-    const alertBox = document.getElementById('loginAlert');
     alertBox.innerText = res.message;
     alertBox.classList.remove('d-none');
     return;
@@ -57,5 +64,21 @@ async function handleLogin(e, role) {
   document.getElementById('loginSection').classList.add('d-none');
   document.getElementById('appSection').classList.remove('d-none');
   document.getElementById('userBadge').innerText = res.name;
-  // Lanjutkan proses masuk dashboard...
+  
+  document.getElementById('roleSubtitle').innerText = res.role === 'TIMBOS'
+    ? 'Verifikator Kecamatan'
+    : 'NPSN: ' + (res.profile ? res.profile.npsn : '-');
+
+  if (res.role === 'TIMBOS') {
+    document.getElementById('timbosReportSchoolCol').classList.remove('d-none');
+    const repSchoolSel = document.getElementById('reportSchoolSelect');
+    repSchoolSel.innerHTML = '';
+    schoolListCache.forEach(s => {
+      repSchoolSel.innerHTML += `<option value="${s}">${s}</option>`;
+    });
+  } else {
+    document.getElementById('timbosReportSchoolCol').classList.add('d-none');
+  }
+
+  switchView('dashboard');
 }
