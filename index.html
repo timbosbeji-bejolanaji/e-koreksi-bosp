@@ -1,219 +1,223 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Koreksi BOSP 2026 | Kecamatan Beji</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Koreksi BOSP 2026 & 2027 | Bejo Lan AJi — Kec. Beji</title>
+
+  <!-- Font Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } } };
+  </script>
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <!-- Tom Select (Searchable Droplist) -->
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
   <style>
-    :root {
-      --navy-900: #0f172a;
-      --accent-blue: #2563eb;
-      --surface-bg: #f8fafc;
-      --card-border: #e2e8f0;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
+    .ts-wrapper.single .ts-control {
+      border-radius: 0.625rem; border: 1px solid #cbd5e1; padding: 0.55rem 0.75rem;
+      font-size: 0.875rem; background-color: #ffffff; box-shadow: none;
     }
-    body { background-color: var(--surface-bg); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; }
-    .login-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at top right, #1e3a8a 0%, #0f172a 60%, #020617 100%); padding: 24px; }
-    .login-card { max-width: 440px; width: 100%; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); background: #fff; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.45); padding: 36px 32px; }
-    .brand-icon-box { width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #fff; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4); }
-    .nav-pills-custom { background-color: #f1f5f9; padding: 4px; border-radius: 12px; }
-    .nav-pills-custom .nav-link { border-radius: 9px; color: var(--text-muted); font-weight: 600; font-size: 0.875rem; }
-    .nav-pills-custom .nav-link.active { background-color: #fff; color: var(--accent-blue); box-shadow: 0 2px 6px rgba(15,23,42,0.08); }
-    .navbar-elegant { background-color: var(--navy-900); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0.75rem 0; }
-    .navbar-elegant .nav-link { color: #cbd5e1; font-weight: 500; font-size: 0.9rem; padding: 0.5rem 1rem !important; border-radius: 10px; margin: 0 2px; }
-    .navbar-elegant .nav-link:hover { color: #fff; background-color: rgba(255,255,255,0.08); }
-    .navbar-elegant .nav-link.active { color: #fff; background-color: var(--accent-blue); font-weight: 600; }
-    .card-elegant { background: #fff; border: 1px solid var(--card-border); border-radius: 16px; box-shadow: 0 1px 3px rgba(15,23,42,0.03); }
-    .card-elegant .card-header { background: transparent; border-bottom: 1px solid #f1f5f9; padding: 1rem 1.25rem; font-weight: 700; font-size: 0.95rem; color: var(--navy-900); }
-    .month-tile { border-radius: 12px; padding: 12px 10px; text-align: center; cursor: pointer; transition: transform 0.15s ease; }
-    .month-tile:hover { transform: translateY(-2px); }
-    .status-box-green { background-color: #ecfdf5 !important; color: #065f46 !important; border: 1px solid #a7f3d0 !important; }
-    .status-box-red { background-color: #fef2f2 !important; color: #991b1b !important; border: 1px solid #fecaca !important; }
-    .cell-green { background-color: #10b981 !important; color: #fff !important; font-weight: 600; text-align: center; cursor: pointer; }
-    .cell-red { background-color: #ef4444 !important; color: #fff !important; font-weight: 600; text-align: center; cursor: pointer; }
-    .cell-green:hover, .cell-red:hover { opacity: 0.88; }
-    .form-control, .form-select { border-radius: 10px; border-color: #cbd5e1; font-size: 0.9rem; }
-    .table-input-sm input { font-size: 0.84rem; padding: 0.35rem 0.55rem; border-radius: 7px; }
-    .paper-choice { border: 2px solid #e2e8f0; border-radius: 12px; padding: 12px; cursor: pointer; }
-    .paper-choice.selected { border-color: var(--accent-blue); background-color: #eff6ff; }
-    .loading-overlay { position: fixed; inset: 0; background: rgba(248,250,252,0.85); backdrop-filter: blur(4px); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; }
+    .ts-wrapper.focus .ts-control {
+      border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .ts-dropdown {
+      border-radius: 0.625rem; border: 1px solid #cbd5e1;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.12); font-size: 0.85rem; z-index: 60;
+    }
+    .ts-dropdown .active { background-color: #eff6ff; color: #1d4ed8; }
+    .paper-f4 { max-width: 100%; width: 100%; }
+    .paper-a4 { max-width: 860px; margin-left: auto; margin-right: auto; }
   </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased">
 
-  <div id="loadingOverlay" class="loading-overlay">
-    <div class="spinner-border text-primary" style="width: 2.8rem; height: 2.8rem;" role="status"></div>
-    <div class="mt-3 fw-semibold text-dark" id="loadingText">Memproses data...</div>
-  </div>
-
-  <!-- HALAMAN LOGIN -->
-  <div id="loginSection" class="login-wrapper">
-    <div class="login-card">
-      <div class="text-center mb-4">
-        <div class="brand-icon-box mb-3"><i class="bi bi-journal-bookmark-fill fs-3"></i></div>
-        <h5 class="fw-bold text-dark mb-1">E-Koreksi BOSP 2026</h5>
-        <p class="text-muted small mb-0">Korwil Kecamatan Beji &bull; Dinas Pendidikan Kab. Pasuruan</p>
-      </div>
-
-      <ul class="nav nav-pills nav-fill nav-pills-custom mb-4" id="loginTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="tab-lembaga" data-bs-toggle="pill" data-bs-target="#pane-lembaga" type="button"><i class="bi bi-building me-1"></i> Lembaga</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="tab-timbos" data-bs-toggle="pill" data-bs-target="#pane-timbos" type="button"><i class="bi bi-shield-check me-1"></i> Tim BOS</button>
-        </li>
-      </ul>
-
-      <div id="loginAlert" class="alert alert-danger py-2 small rounded-3 d-none"></div>
-
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="pane-lembaga">
-          <form onsubmit="handleLogin(event, 'LEMBAGA')">
-            <div class="mb-3">
-              <label class="form-label fw-semibold small text-secondary">Pilih Nama Lembaga</label>
-              <select id="selectSchool" class="form-select py-2" required>
-                <option value="">-- Pilih Nama Lembaga --</option>
-              </select>
-            </div>
-            <div class="mb-4">
-              <label class="form-label fw-semibold small text-secondary">Password (NPSN)</label>
-              <input type="password" id="passLembaga" class="form-control py-2" placeholder="Masukkan 8 digit NPSN" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm">Masuk ke Portal Lembaga <i class="bi bi-arrow-right ms-1"></i></button>
-          </form>
-        </div>
-
-        <div class="tab-pane fade" id="pane-timbos">
-          <form onsubmit="handleLogin(event, 'TIMBOS')">
-            <div class="mb-3">
-              <label class="form-label fw-semibold small text-secondary">Username</label>
-              <input type="text" id="userTimbos" class="form-control py-2" placeholder="TimBOS" required>
-            </div>
-            <div class="mb-4">
-              <label class="form-label fw-semibold small text-secondary">Password</label>
-              <input type="password" id="passTimbos" class="form-control py-2" placeholder="Masukkan password Tim BOS" required>
-            </div>
-            <button type="submit" class="btn btn-dark w-100 py-2 shadow-sm">Masuk sebagai Tim BOS <i class="bi bi-arrow-right ms-1"></i></button>
-          </form>
-        </div>
-      </div>
+  <!-- LOADING OVERLAY -->
+  <div id="loadingOverlay" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl px-6 py-5 flex items-center gap-3.5 border border-slate-200">
+      <div class="w-6 h-6 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <span id="loadingText" class="text-sm font-semibold text-slate-800">Memproses data spreadsheet...</span>
     </div>
   </div>
 
-  <!-- APLIKASI UTAMA -->
-  <div id="appSection" class="d-none">
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-elegant sticky-top shadow-sm">
-      <div class="container-fluid px-4">
-        <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#" onclick="switchView('dashboard');return false;">
-          <span class="bg-primary rounded-2 px-2 py-1 fs-6"><i class="bi bi-journal-check"></i></span>
-          <span>E-Koreksi BOSP 2026</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
-            <li class="nav-item">
-              <a class="nav-link active" id="navDashboard" href="#" onclick="switchView('dashboard');return false;">
-                <i class="bi bi-grid-1x2 me-1"></i> Dashboard
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="navPelaporan" href="#" onclick="switchView('pelaporan');return false;">
-                <i class="bi bi-pencil-square me-1"></i> Pelaporan (Jan - Des)
-              </a>
-            </li>
-            <!-- Menu Khusus Tim BOS: Monitoring Upload SPJ -->
-            <li class="nav-item d-none" id="navSpjMonitorItem">
-              <a class="nav-link" id="navSpjMonitor" href="#" onclick="switchView('spjMonitor');return false;">
-                <i class="bi bi-cloud-check me-1"></i> Monitoring Upload SPJ
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" onclick="openPrintModal();return false;">
-                <i class="bi bi-printer me-1"></i> Cetak Laporan
-              </a>
-            </li>
-          </ul>
-          <div class="d-flex align-items-center gap-3">
-            <div class="text-end d-none d-sm-block">
-              <div class="text-white fw-semibold small" id="userBadge">User</div>
-              <div class="text-secondary" style="font-size:0.72rem;" id="roleSubtitle">Lembaga</div>
-            </div>
-            <button class="btn btn-outline-light btn-sm px-3" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i> Keluar</button>
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-[calc(100vw-2.5rem)] pointer-events-none"></div>
+
+  <!-- ==================== HALAMAN LOGIN ==================== -->
+  <section id="loginSection" class="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900">
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200/80 p-6 sm:p-8">
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-blue-600/30 mb-3">
+          <i class="bi bi-journal-bookmark-fill text-2xl"></i>
+        </div>
+        <h1 class="text-xl font-extrabold text-slate-900 tracking-tight">E-Koreksi BOSP 2026 &amp; 2027</h1>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">Bejo Lan AJi &bull; Korwil Kecamatan Beji, Kab. Pasuruan</p>
+      </div>
+
+      <!-- Tab 4 Peran -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-slate-100 p-1.5 rounded-2xl mb-5">
+        <button type="button" onclick="setLoginRole('LEMBAGA')" id="roleTab-LEMBAGA" class="role-tab py-2 px-2 rounded-xl text-xs font-semibold transition bg-white text-blue-700 shadow-sm">
+          <i class="bi bi-building block text-sm mb-0.5"></i>Lembaga
+        </button>
+        <button type="button" onclick="setLoginRole('KS')" id="roleTab-KS" class="role-tab py-2 px-2 rounded-xl text-xs font-semibold transition text-slate-600 hover:text-slate-900">
+          <i class="bi bi-person-badge block text-sm mb-0.5"></i>Kepala Sek.
+        </button>
+        <button type="button" onclick="setLoginRole('TIMBOS')" id="roleTab-TIMBOS" class="role-tab py-2 px-2 rounded-xl text-xs font-semibold transition text-slate-600 hover:text-slate-900">
+          <i class="bi bi-shield-check block text-sm mb-0.5"></i>Tim BOS
+        </button>
+        <button type="button" onclick="setLoginRole('PENGAWAS')" id="roleTab-PENGAWAS" class="role-tab py-2 px-2 rounded-xl text-xs font-semibold transition text-slate-600 hover:text-slate-900">
+          <i class="bi bi-eye block text-sm mb-0.5"></i>Pengawas
+        </button>
+      </div>
+
+      <div id="loginErrorBox" class="hidden mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium flex items-center gap-2">
+        <i class="bi bi-exclamation-circle-fill shrink-0"></i>
+        <span id="loginErrorText"></span>
+      </div>
+
+      <form onsubmit="handleLogin(event)" class="space-y-4">
+        <div id="loginFieldLembaga">
+          <label class="block text-xs font-semibold text-slate-600 mb-1.5">Pilih Nama Lembaga</label>
+          <select id="loginSchoolSelect" placeholder="Ketik untuk mencari nama sekolah..."></select>
+        </div>
+
+        <div id="loginFieldUsername" class="hidden">
+          <label id="loginUsernameLabel" class="block text-xs font-semibold text-slate-600 mb-1.5">Username</label>
+          <input type="text" id="loginUsernameInput" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-600" placeholder="Masukkan username" />
+        </div>
+
+        <div>
+          <label id="loginPasswordLabel" class="block text-xs font-semibold text-slate-600 mb-1.5">Password (NPSN)</label>
+          <input type="password" id="loginPasswordInput" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-600" placeholder="Masukkan password" />
+        </div>
+
+        <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-2">
+          <span>Masuk ke Aplikasi</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==================== APLIKASI UTAMA ==================== -->
+  <div id="appSection" class="hidden min-h-screen flex flex-col">
+    <header class="bg-slate-900 text-white sticky top-0 z-40 border-b border-slate-800 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow"><i class="bi bi-journal-check text-lg"></i></div>
+          <div>
+            <div class="font-bold text-sm sm:text-base leading-tight">E-Koreksi BOSP</div>
+            <div class="text-[11px] text-slate-400">Kecamatan Beji</div>
+          </div>
+          <div class="ml-2 pl-3 border-l border-slate-700">
+            <select id="tahunAnggaranSelect" onchange="onYearChange()" class="bg-slate-800 text-white text-xs sm:text-sm font-bold rounded-xl border border-slate-700 px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="2026">TA 2026</option>
+              <option value="2027" selected>TA 2027</option>
+            </select>
           </div>
         </div>
-      </div>
-    </nav>
 
-    <div class="container-fluid px-4 py-4" style="max-width: 1440px;">
+        <nav id="mainNavContainer" class="flex flex-wrap items-center gap-1.5 order-3 lg:order-2 w-full lg:w-auto pt-2 lg:pt-0 border-t border-slate-800 lg:border-0"></nav>
+
+        <div class="flex items-center gap-3 order-2 lg:order-3">
+          <div class="text-right hidden sm:block">
+            <div id="navUserName" class="text-xs font-bold text-white leading-tight">-</div>
+            <div id="navUserRole" class="text-[11px] text-blue-300 leading-tight">-</div>
+          </div>
+          <button type="button" onclick="logout()" class="py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-red-600/90 text-slate-200 hover:text-white text-xs font-semibold transition border border-slate-700 flex items-center gap-1.5">
+            <i class="bi bi-box-arrow-right"></i><span>Keluar</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Banner Notifikasi -->
+    <div id="unreadNotifBanner" class="hidden bg-amber-50 border-b border-amber-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-amber-900">
+        <div class="flex items-center gap-2 font-medium">
+          <i class="bi bi-bell-fill text-amber-600"></i>
+          <span id="unreadNotifText">Anda memiliki pesan/notifikasi baru.</span>
+        </div>
+        <button type="button" onclick="switchView('chat')" class="px-3 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold">Buka Chat &amp; Notifikasi</button>
+      </div>
+    </div>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
       <!-- VIEW 1: DASHBOARD LEMBAGA -->
-      <div id="viewDashboardLembaga" class="d-none">
-        <div class="row g-4">
-          <div class="col-lg-5">
-            <div class="card card-elegant h-100">
-              <div class="card-header d-flex align-items-center justify-content-between">
-                <span><i class="bi bi-building-check text-primary me-2"></i>Profil Lembaga (Pagu 2026)</span>
-                <span class="badge bg-primary-subtle text-primary rounded-pill">Kec. Beji</span>
+      <div id="viewDashboardLembaga" class="hidden space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+              <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="bi bi-building-check text-blue-600"></i><span id="profCardTitle">Profil Lembaga</span></h2>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">Kec. Beji</span>
+            </div>
+            <div class="p-5 space-y-2.5 text-sm">
+              <div class="flex justify-between gap-2"><span class="text-slate-500">Nama Lembaga</span><span id="profNama" class="font-bold text-slate-900 text-right">-</span></div>
+              <div class="flex justify-between gap-2"><span class="text-slate-500">NPSN</span><span id="profNpsn" class="font-semibold text-slate-800">-</span></div>
+              <div class="flex justify-between gap-2"><span class="text-slate-500">No. Rekening Salur</span><span id="profNoRek" class="font-semibold text-slate-800">-</span></div>
+              <div class="flex justify-between gap-2"><span class="text-slate-500">Nama Rekening Salur</span><span id="profNamaRek" class="font-semibold text-slate-800 text-right">-</span></div>
+              <div class="flex justify-between gap-2"><span class="text-slate-500">Jumlah Siswa</span><span id="profSiswa" class="font-semibold text-slate-800">-</span></div>
+              <div class="pt-3 mt-2 border-t border-slate-100 flex justify-between items-center">
+                <span class="text-slate-600 font-semibold">Pagu 1 Tahun</span>
+                <span id="profPagu" class="text-lg font-extrabold text-blue-600">Rp 0</span>
               </div>
-              <div class="card-body">
-                <table class="table table-borderless table-sm mb-0">
-                  <tr><td class="text-muted py-2">Nama Lembaga</td><td class="fw-bold py-2" id="profNama">-</td></tr>
-                  <tr><td class="text-muted py-2">NPSN</td><td class="fw-semibold py-2" id="profNpsn">-</td></tr>
-                  <tr><td class="text-muted py-2">No. Rekening Salur</td><td class="fw-semibold py-2" id="profNoRek">-</td></tr>
-                  <tr><td class="text-muted py-2">Nama Rekening Salur</td><td class="fw-semibold py-2" id="profNamaRek">-</td></tr>
-                  <tr><td class="text-muted py-2">Jumlah Siswa</td><td class="fw-semibold py-2" id="profSiswa">-</td></tr>
-                  <tr class="border-top"><td class="text-muted pt-3 fw-semibold">Pagu 1 Tahun</td><td class="fw-bold text-primary fs-5 pt-3" id="profPagu">-</td></tr>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+              <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="bi bi-calendar2-check text-emerald-600"></i><span>Status Pelaporan Koreksi BOSP <span class="activeYearLabel">2027</span></span></h2>
+              <div class="flex items-center gap-1.5 text-[11px] font-semibold">
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">Hijau = Sudah Terisi</span>
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 border border-red-200">Merah = Belum</span>
+              </div>
+            </div>
+            <div class="p-5 flex-1">
+              <div id="lembagaMonthGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5"></div>
+              <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+                <p class="text-xs text-slate-500"><i class="bi bi-hand-index-thumb me-1"></i>Klik kotak bulan untuk input/edit laporan.</p>
+                <button type="button" onclick="openPrintModal()" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold"><i class="bi bi-printer me-1"></i>Cetak Laporan</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="bi bi-cash-coin text-amber-500"></i><span>Perencanaan Tarik Tunai (Tar-Tun <span class="activeYearShort">27</span>)</span></h2>
+            <span id="lembagaPaguTahapBadge" class="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-semibold">Pagu Per Tahap: Rp 0</span>
+          </div>
+          <div class="p-5 grid grid-cols-1 xl:grid-cols-2 gap-5">
+            <div>
+              <div class="text-xs font-bold uppercase text-slate-500 mb-2">Tahap 1 (Januari – Juni)</div>
+              <div class="overflow-x-auto rounded-xl border border-slate-200">
+                <table class="w-full text-xs text-right">
+                  <thead class="bg-slate-50 text-slate-600 text-center font-semibold border-b border-slate-200"><tr><th class="p-2">Jan</th><th class="p-2">Feb</th><th class="p-2">Mar</th><th class="p-2">Apr</th><th class="p-2">Mei</th><th class="p-2">Jun</th><th class="p-2">Selisih</th></tr></thead>
+                  <tbody id="lembagaTarTunT1"></tbody>
                 </table>
               </div>
             </div>
-          </div>
-          <div class="col-lg-7">
-            <div class="card card-elegant h-100">
-              <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <span><i class="bi bi-calendar2-check text-success me-2"></i>Status Pelaporan Lembar Koreksi BOSP 2026</span>
-                <div class="small">
-                  <span class="badge bg-success-subtle text-success border me-1">Sudah Terisi</span>
-                  <span class="badge bg-danger-subtle text-danger border">Belum Terisi</span>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="row g-2.5" id="lembagaMonthStatusGrid"></div>
-                <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
-                  <span class="text-muted small"><i class="bi bi-hand-index-thumb me-1"></i>Klik bulan untuk input laporan atau upload berkas SPJ.</span>
-                  <button class="btn btn-outline-primary btn-sm" onclick="openPrintModal()"><i class="bi bi-printer me-1"></i> Cetak / Unduh Laporan</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-elegant">
-              <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <span><i class="bi bi-cash-coin text-warning me-2"></i>Perencanaan Tarik Tunai (Sheet Tar-Tun 26)</span>
-                <span class="badge bg-dark px-3 py-2 rounded-pill" id="ttPaguTahapBadge">Pagu Per Tahap: Rp 0</span>
-              </div>
-              <div class="card-body">
-                <div class="row g-4">
-                  <div class="col-xl-6">
-                    <div class="small fw-bold text-uppercase text-muted mb-2">Tahap 1 (Januari – Juni)</div>
-                    <div class="table-responsive"><table class="table table-bordered table-sm text-end align-middle mb-0" style="font-size:0.84rem;">
-                      <thead class="table-light text-center"><tr><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>Mei</th><th>Jun</th><th>Selisih</th></tr></thead>
-                      <tbody id="ttTahap1Body"></tbody>
-                    </table></div>
-                  </div>
-                  <div class="col-xl-6">
-                    <div class="small fw-bold text-uppercase text-muted mb-2">Tahap 2 (Juli – Desember)</div>
-                    <div class="table-responsive"><table class="table table-bordered table-sm text-end align-middle mb-0" style="font-size:0.84rem;">
-                      <thead class="table-light text-center"><tr><th>Jul</th><th>Agu</th><th>Sep</th><th>Okt</th><th>Nop</th><th>Des</th><th>Selisih</th></tr></thead>
-                      <tbody id="ttTahap2Body"></tbody>
-                    </table></div>
-                  </div>
-                </div>
+            <div>
+              <div class="text-xs font-bold uppercase text-slate-500 mb-2">Tahap 2 (Juli – Desember)</div>
+              <div class="overflow-x-auto rounded-xl border border-slate-200">
+                <table class="w-full text-xs text-right">
+                  <thead class="bg-slate-50 text-slate-600 text-center font-semibold border-b border-slate-200"><tr><th class="p-2">Jul</th><th class="p-2">Agu</th><th class="p-2">Sep</th><th class="p-2">Okt</th><th class="p-2">Nop</th><th class="p-2">Des</th><th class="p-2">Selisih</th></tr></thead>
+                  <tbody id="lembagaTarTunT2"></tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -221,809 +225,1462 @@
       </div>
 
       <!-- VIEW 2: DASHBOARD TIM BOS -->
-      <div id="viewDashboardTimBOS" class="d-none">
-        <div class="card card-elegant mb-4">
-          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span><i class="bi bi-bar-chart-line text-primary me-2"></i>Grafik Perencanaan Tarik Tunai 2026</span>
-            <div class="d-flex align-items-center gap-2">
-              <label class="small fw-semibold text-muted text-nowrap">Filter Lembaga:</label>
-              <select id="chartSchoolFilter" class="form-select form-select-sm" style="min-width:260px;" onchange="renderTimBOSChart()">
-                <option value="ALL">Semua Lembaga (Total Kecamatan Beji)</option>
-              </select>
+      <div id="viewDashboardTimBOS" class="hidden space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+            <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="bi bi-bar-chart-line-fill text-blue-600"></i><span>Grafik Perencanaan Tarik Tunai <span class="activeYearLabel">2027</span></span></h2>
+            <div class="flex items-center gap-2">
+              <label class="text-xs font-semibold text-slate-500">Filter:</label>
+              <select id="timbosChartFilter" onchange="renderTimBOSChart()" class="rounded-xl border border-slate-300 px-3 py-1.5 text-xs font-semibold bg-white"></select>
             </div>
           </div>
-          <div class="card-body"><div style="height: 310px;"><canvas id="tarTunChart"></canvas></div></div>
+          <div class="p-5"><div class="h-72 relative"><canvas id="tarTunChartCanvas"></canvas></div></div>
         </div>
-        <div class="card card-elegant">
-          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span><i class="bi bi-grid-3x3-gap text-success me-2"></i>Monitoring Status Input Lembar Koreksi BOSP (Jan - Des 2026)</span>
-            <button class="btn btn-primary btn-sm" onclick="switchView('spjMonitor')">
-              <i class="bi bi-cloud-check me-1"></i> Lihat Monitoring Upload Berkas SPJ
-            </button>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="bi bi-grid-3x3-gap-fill text-emerald-600"></i><span>Monitoring Status Input Lembar Koreksi BOSP (<span class="activeYearLabel">2027</span>)</span></h2>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="px-2 py-0.5 rounded-md bg-emerald-500 text-white font-semibold">Sudah</span>
+              <span class="px-2 py-0.5 rounded-md bg-red-500 text-white font-semibold">Belum</span>
+            </div>
           </div>
-          <div class="card-body p-0">
-            <div class="table-responsive"><table class="table table-bordered table-hover table-sm mb-0 align-middle" style="font-size: 0.81rem;">
-              <thead class="table-dark text-center">
-                <tr><th width="3%">No</th><th class="text-start">Nama Lembaga</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>Mei</th><th>Jun</th><th>Jul</th><th>Agu</th><th>Sep</th><th>Okt</th><th>Nop</th><th>Des</th><th>Validasi</th></tr>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs border-collapse">
+              <thead class="bg-slate-900 text-white text-center">
+                <tr>
+                  <th class="p-2.5 w-10">No</th><th class="p-2.5 text-left">Nama Lembaga</th>
+                  <th class="p-2">Jan</th><th class="p-2">Feb</th><th class="p-2">Mar</th><th class="p-2">Apr</th><th class="p-2">Mei</th><th class="p-2">Jun</th>
+                  <th class="p-2">Jul</th><th class="p-2">Agu</th><th class="p-2">Sep</th><th class="p-2">Okt</th><th class="p-2">Nop</th><th class="p-2">Des</th>
+                  <th class="p-2.5">Validasi Tar-Tun</th>
+                </tr>
               </thead>
-              <tbody id="timbosMatrixBody"></tbody>
-            </table></div>
+              <tbody id="timbosMatrixBody" class="divide-y divide-slate-200"></tbody>
+            </table>
           </div>
         </div>
       </div>
 
-      <!-- VIEW 3: MONITORING UPLOAD BERKAS SPJ (KHUSUS TIM BOS) -->
-      <div id="viewSpjMonitorTimBOS" class="d-none">
-        <div class="row g-3 mb-4">
-          <div class="col-md-4">
-            <div class="card card-elegant h-100 border-start border-4 border-primary">
-              <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                  <div class="text-muted small fw-semibold">Total Lembaga Kecamatan Beji</div>
-                  <div class="fs-3 fw-bold text-dark mt-1" id="spjStatTotalSchools">32 Lembaga</div>
-                </div>
-                <div class="bg-primary-subtle text-primary rounded-3 p-3 fs-4"><i class="bi bi-buildings"></i></div>
-              </div>
+      <!-- VIEW 3: DASHBOARD CAPAIAN (PENGAWAS & KS) -->
+      <div id="viewCapaianSupervisi" class="hidden space-y-6">
+        <div class="bg-gradient-to-r from-slate-900 to-blue-900 text-white rounded-2xl p-5 shadow-md flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span id="supervisiRoleBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-500/30 border border-blue-400/40 text-blue-100">Supervisi</span>
+              <span id="supervisiLockBadge" class="hidden px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 border border-amber-400/40 text-amber-200"><i class="bi bi-lock-fill me-1"></i>Terkunci Lembaga Sendiri</span>
             </div>
+            <h2 id="supervisiTitle" class="text-lg font-extrabold">Dashboard Grafik Capaian Tugas</h2>
+            <p class="text-xs text-slate-300 mt-0.5">Pantau Upload SPJ, Input Koreksi, dan Kondisi RKAS berdasarkan berbagai dimensi.</p>
           </div>
-          <div class="col-md-4">
-            <div class="card card-elegant h-100 border-start border-4 border-success">
-              <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                  <div class="text-muted small fw-semibold">Total Berkas SPJ Terunggah (Tahun 2026)</div>
-                  <div class="fs-3 fw-bold text-success mt-1" id="spjStatUploadedTotal">0 Berkas</div>
-                </div>
-                <div class="bg-success-subtle text-success rounded-3 p-3 fs-4"><i class="bi bi-file-earmark-check"></i></div>
-              </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <div id="pengawasSchoolFilterWrap" class="flex items-center gap-2">
+              <label class="text-xs text-slate-300 font-semibold">Lembaga:</label>
+              <select id="supervisiSchoolFilter" onchange="loadCapaianSupervisi()" class="rounded-xl bg-slate-800 border border-slate-600 text-white text-xs font-semibold px-3 py-2"></select>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card card-elegant h-100 border-start border-4 border-warning">
-              <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                  <div class="text-muted small fw-semibold">Akses Folder Google Drive SPJ</div>
-                  <div class="mt-2">
-                    <a href="#" target="_blank" id="btnOpenDriveFolder" class="btn btn-outline-dark btn-sm">
-                      <i class="bi bi-folder2-open me-1"></i> Buka Folder Drive
-                    </a>
-                    <button class="btn btn-primary btn-sm ms-1" onclick="loadSPJMonitoring(true)">
-                      <i class="bi bi-arrow-clockwise me-1"></i> Segarkan Data
-                    </button>
-                  </div>
-                </div>
-                <div class="bg-warning-subtle text-warning-emphasis rounded-3 p-3 fs-4"><i class="bi bi-google"></i></div>
-              </div>
+            <div id="ksApprovalActions" class="hidden flex items-center gap-2">
+              <button type="button" onclick="ksActionRkas('APPROVED')" class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold shadow"><i class="bi bi-patch-check-fill me-1"></i>Setujui / Sahkan RKAS</button>
+              <button type="button" onclick="ksActionRkas('REVISION')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow"><i class="bi bi-arrow-counterclockwise me-1"></i>Minta Revisi</button>
             </div>
           </div>
         </div>
 
-        <!-- Grafik Progres Upload SPJ Per Bulan -->
-        <div class="card card-elegant mb-4">
-          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span><i class="bi bi-bar-chart-steps text-primary me-2"></i>Grafik Monitoring Upload Berkas SPJ Per Bulan (2026)</span>
-            <span class="small text-muted">Perbandingan jumlah lembaga yang Sudah Upload vs Belum Upload</span>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+            <h3 class="font-bold text-sm text-slate-900 mb-3"><i class="bi bi-cloud-check-fill text-emerald-600 me-2"></i>Capaian Upload SPJ Bulanan (<span class="activeYearLabel">2027</span>)</h3>
+            <div class="h-60 relative"><canvas id="chartCapaianSpj"></canvas></div>
           </div>
-          <div class="card-body">
-            <div style="height: 290px;"><canvas id="spjUploadChart"></canvas></div>
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+            <h3 class="font-bold text-sm text-slate-900 mb-3"><i class="bi bi-clipboard2-check-fill text-blue-600 me-2"></i>Capaian Input Laporan Koreksi SPJ (<span class="activeYearLabel">2027</span>)</h3>
+            <div class="h-60 relative"><canvas id="chartCapaianKoreksi"></canvas></div>
           </div>
         </div>
 
-        <!-- Tabel Matriks Monitoring Upload SPJ (Jan - Des) -->
-        <div class="card card-elegant">
-          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span><i class="bi bi-cloud-arrow-up text-success me-2"></i>Matriks Status Upload Berkas SPJ Lembaga (Januari – Desember 2026)</span>
-            <div class="small">
-              <span class="badge bg-success me-1">Hijau = Sudah Upload (Klik untuk buka file)</span>
-              <span class="badge bg-danger">Merah = Belum Upload</span>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 class="font-bold text-sm text-slate-900"><i class="bi bi-pie-chart-fill text-indigo-600 me-2"></i>Analisis Kondisi RKAS 2027</h3>
+              <p id="rkasApprovalStatusText" class="text-xs text-slate-500 mt-0.5">-</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5 bg-slate-100 p-1 rounded-xl">
+              <button type="button" onclick="setRkasAnalyticsMode('REKENING')" id="rkasMode-REKENING" class="rkas-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-blue-700 shadow-sm">Rekening Belanja</button>
+              <button type="button" onclick="setRkasAnalyticsMode('KODE_REK')" id="rkasMode-KODE_REK" class="rkas-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600">Kode Rekening</button>
+              <button type="button" onclick="setRkasAnalyticsMode('KEGIATAN')" id="rkasMode-KEGIATAN" class="rkas-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600">Kegiatan</button>
+              <button type="button" onclick="setRkasAnalyticsMode('SNP')" id="rkasMode-SNP" class="rkas-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600">8 Standar Nasional</button>
             </div>
           </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-bordered table-hover table-sm mb-0 align-middle" style="font-size: 0.81rem;">
-                <thead class="table-dark text-center">
-                  <tr>
-                    <th width="3%">No</th>
-                    <th class="text-start">Nama Lembaga</th>
-                    <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>Mei</th><th>Jun</th>
-                    <th>Jul</th><th>Agu</th><th>Sep</th><th>Okt</th><th>Nop</th><th>Des</th>
-                    <th width="8%">Total Upload</th>
-                  </tr>
-                </thead>
-                <tbody id="spjMonitorMatrixBody"></tbody>
+          <div class="p-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div class="lg:col-span-6 h-72 relative"><canvas id="chartRkasAnalytics"></canvas></div>
+            <div class="lg:col-span-6 overflow-x-auto rounded-xl border border-slate-200">
+              <table class="w-full text-xs">
+                <thead class="bg-slate-50 text-slate-600 border-b border-slate-200"><tr><th class="p-2.5 text-left">Kategori</th><th class="p-2.5 text-right">Total Anggaran</th><th class="p-2.5 text-right">Porsi</th></tr></thead>
+                <tbody id="rkasAnalyticsTableBody" class="divide-y divide-slate-100"></tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- VIEW 4: PELAPORAN -->
-      <div id="viewPelaporan" class="d-none">
-        <div class="card card-elegant mb-3">
-          <div class="card-body">
-            <div class="row g-3 align-items-end">
-              <div class="col-md-3">
-                <label class="form-label fw-bold small text-secondary">Pilih Bulan Pelaporan (2026)</label>
-                <select id="reportMonthSelect" class="form-select" onchange="loadLaporanData()">
-                  <option value="Januari">Januari</option><option value="Februari">Februari</option><option value="Maret">Maret</option>
-                  <option value="April">April</option><option value="Mei">Mei</option><option value="Juni">Juni</option>
-                  <option value="Juli">Juli</option><option value="Agustus">Agustus</option><option value="September">September</option>
-                  <option value="Oktober">Oktober</option><option value="Nopember">Nopember</option><option value="Desember">Desember</option>
+      <!-- VIEW 4: MONITORING UPLOAD SPJ (TIM BOS) -->
+      <div id="viewSpjMonitor" class="hidden space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 flex items-center justify-between shadow-sm">
+            <div><div class="text-xs font-semibold text-slate-500">Total Lembaga Kec. Beji</div><div id="spjStatSchools" class="text-2xl font-extrabold text-slate-900 mt-1">0</div></div>
+            <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl"><i class="bi bi-buildings"></i></div>
+          </div>
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 flex items-center justify-between shadow-sm">
+            <div><div class="text-xs font-semibold text-slate-500">Total Berkas SPJ Terunggah</div><div id="spjStatUploaded" class="text-2xl font-extrabold text-emerald-600 mt-1">0</div></div>
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl"><i class="bi bi-file-earmark-check"></i></div>
+          </div>
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 flex items-center justify-between shadow-sm">
+            <div>
+              <div class="text-xs font-semibold text-slate-500">Folder Google Drive SPJ</div>
+              <div class="mt-2 flex items-center gap-2">
+                <a id="btnOpenDriveFolder" href="#" target="_blank" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold"><i class="bi bi-folder2-open me-1"></i>Buka Drive</a>
+                <button type="button" onclick="loadSpjMonitor(true)" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold"><i class="bi bi-arrow-clockwise me-1"></i>Segarkan</button>
+              </div>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl"><i class="bi bi-google"></i></div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+          <h3 class="font-bold text-sm text-slate-900 mb-3"><i class="bi bi-bar-chart-steps text-blue-600 me-2"></i>Grafik Progres Upload SPJ Per Bulan</h3>
+          <div class="h-64 relative"><canvas id="spjMonitorChartCanvas"></canvas></div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100"><h3 class="font-bold text-sm text-slate-900"><i class="bi bi-cloud-arrow-up text-emerald-600 me-2"></i>Matriks Upload Berkas SPJ (Klik Hijau untuk Membuka File)</h3></div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs border-collapse">
+              <thead class="bg-slate-900 text-white text-center">
+                <tr>
+                  <th class="p-2.5 w-10">No</th><th class="p-2.5 text-left">Nama Lembaga</th>
+                  <th class="p-2">Jan</th><th class="p-2">Feb</th><th class="p-2">Mar</th><th class="p-2">Apr</th><th class="p-2">Mei</th><th class="p-2">Jun</th>
+                  <th class="p-2">Jul</th><th class="p-2">Agu</th><th class="p-2">Sep</th><th class="p-2">Okt</th><th class="p-2">Nop</th><th class="p-2">Des</th>
+                  <th class="p-2.5">Capaian</th>
+                </tr>
+              </thead>
+              <tbody id="spjMonitorTableBody" class="divide-y divide-slate-200"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 5: PERENCANAAN TA 2027 (RKAS, TAR-TUN, CETAK) -->
+      <div id="viewPerencanaan2027" class="hidden space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex flex-wrap gap-1.5">
+            <button type="button" onclick="switchPlanSubTab('rkas')" id="planTab-rkas" class="plan-subtab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-sm"><i class="bi bi-list-task me-1.5"></i>Input RKAS 2027</button>
+            <button type="button" onclick="switchPlanSubTab('tartun')" id="planTab-tartun" class="plan-subtab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100"><i class="bi bi-cash-stack me-1.5"></i>Rencana Tarik Tunai 2027</button>
+            <button type="button" onclick="switchPlanSubTab('cetak')" id="planTab-cetak" class="plan-subtab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100"><i class="bi bi-printer me-1.5"></i>Cetak RKAS (A4/F4)</button>
+          </div>
+          <div id="planSchoolSelectorWrap" class="hidden flex items-center gap-2 pr-2">
+            <span class="text-xs font-semibold text-slate-500">Lembaga:</span>
+            <select id="planSchoolSelector" onchange="loadPerencanaan2027()" class="rounded-xl border border-slate-300 px-3 py-1.5 text-xs font-semibold bg-white"></select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="rakPaguCards"></div>
+
+        <!-- SUB-TAB RKAS -->
+        <div id="planPane-rkas" class="space-y-5">
+          <div id="rkasInputFormCard" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2 bg-slate-50/70">
+              <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="bi bi-plus-square-dotted text-blue-600"></i><span id="rkasFormTitle">Form Input RKAS 2027 (Searchable Droplist)</span></h3>
+              <span class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 text-[11px] font-semibold">Ref_Kegiatan (Kolom C &amp; D) &bull; Ref_KodeRek (Korek) &bull; Ref_BarJas_2027 / Ref_Modal_2027</span>
+            </div>
+
+            <div class="p-5 space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1.5">1. Kegiatan BOSP <span class="ml-1 px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 text-[10px]">Ref_Kegiatan &bull; Kolom D (Uraian)</span></label>
+                <select id="rkasKegiatan" placeholder="Ketik untuk mencari Uraian Kegiatan BOSP (Kolom D)..."></select>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1.5">8 Standar Nasional Pendidikan <span class="ml-1 px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 text-[10px]">Otomatis</span></label>
+                  <div class="flex items-center rounded-xl border border-blue-200 bg-blue-50/50 px-3 py-2 text-xs font-bold text-blue-800 gap-2">
+                    <i class="bi bi-award-fill text-blue-600"></i>
+                    <input type="text" id="rkasSnpDisplay" readonly class="bg-transparent w-full focus:outline-none" placeholder="Otomatis terisi sesuai Kegiatan BOSP" />
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1.5">Kelompok Kegiatan Cetak RKAS <span class="ml-1 px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-[10px]">Ref_Kegiatan &bull; Kolom C (Otomatis)</span></label>
+                  <div class="flex items-center rounded-xl border border-amber-200 bg-amber-50/50 px-3 py-2 text-xs font-bold text-slate-800 gap-2">
+                    <i class="bi bi-folder2-open text-amber-600"></i>
+                    <input type="text" id="rkasKegiatanCDisplay" readonly class="bg-transparent w-full focus:outline-none" placeholder="Otomatis terisi untuk filter Cetak RKAS" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div class="md:col-span-4">
+                  <label class="block text-xs font-bold text-slate-700 mb-1.5">2. Jenis Rekening Belanja <span class="ml-1 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px]">Sinkron via Korek</span></label>
+                  <select id="rkasJenis" onchange="onRkasJenisChange()" class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm bg-white">
+                    <option value="">-- Semua / Pilih Jenis Rekening --</option>
+                    <option value="Barang dan Jasa">Barang dan Jasa</option>
+                    <option value="Modal Peralatan dan Mesin">Modal Peralatan dan Mesin</option>
+                    <option value="Modal Aset Lain">Modal Aset Lain</option>
+                  </select>
+                </div>
+                <div class="md:col-span-8">
+                  <label class="block text-xs font-bold text-slate-700 mb-1.5">3. Kode Rekening / Korek (Penghubung) <span id="rkasKodeRekFilterTag" class="ml-1 px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 text-[10px]">Ref_KodeRek &bull; Penghubung BarJas, Modal &amp; Aset Lain</span></label>
+                  <select id="rkasKodeRek" placeholder="Ketik / pilih Korek (Penghubung BarJas, Modal & Aset Lain)..."></select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div class="md:col-span-8">
+                  <label class="block text-xs font-bold text-slate-700 mb-1.5">4. Kode &amp; Nama Barang <span id="rkasBarangSourceTag" class="ml-1 px-2 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200 text-[10px]">Terhubung via Korek</span></label>
+                  <select id="rkasKodeBrg" placeholder="Pilih Korek terlebih dahulu..."></select>
+                </div>
+                <div class="md:col-span-4">
+                  <label class="block text-xs font-bold text-slate-700 mb-1.5">HET / Harga Satuan (Rp)</label>
+                  <input type="number" id="rkasHet" oninput="recalcRkasAllMonths()" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-bold text-right" placeholder="0" />
+                  <p id="rkasHetHint" class="text-[11px] text-slate-500 mt-1">Otomatis terisi batas HET maksimal referensi.</p>
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-slate-100">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                  <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-700">5. Bulan Dianggarkan, Volume &amp; Auto-Jumlah</h4>
+                  <button type="button" onclick="addRkasMonthRow()" class="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold border border-blue-200"><i class="bi bi-plus-circle me-1"></i>Tambah Bulan</button>
+                </div>
+                <div id="rkasMonthRowsContainer" class="space-y-2"></div>
+              </div>
+
+              <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                <div class="text-sm"><span class="text-slate-500 font-medium">Total Rencana Input Ini:</span><span id="rkasFormGrandTotal" class="ml-2 text-base font-extrabold text-blue-700">Rp 0</span></div>
+                <div class="flex items-center gap-2">
+                  <button type="button" id="btnCancelEditRkas" onclick="cancelEditRkas()" class="hidden px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold">Batal Ubah</button>
+                  <button type="button" id="btnSaveRkas" onclick="saveRkasEntry()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow"><i class="bi bi-save me-1.5"></i>Simpan ke RKAS 2027</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+              <h3 class="font-bold text-sm text-slate-900"><i class="bi bi-table text-blue-600 me-2"></i>Daftar Anggaran RKAS 2027 Tersimpan</h3>
+              <span id="rkasCountBadge" class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">0 Item RKAS</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs">
+                <thead class="bg-slate-50 text-slate-600 border-b border-slate-200 text-left">
+                  <tr>
+                    <th class="p-3 text-center w-10">No</th>
+                    <th class="p-3">Kegiatan (Kolom D), 8 SNP &amp; Kelompok (Kolom C)</th>
+                    <th class="p-3">Rekening Belanja (Korek)</th>
+                    <th class="p-3">Barang &amp; HET</th>
+                    <th class="p-3 text-center">Bulan / Vol</th>
+                    <th class="p-3 text-right">Total</th>
+                    <th id="thRkasAction" class="p-3 text-center w-24">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="rkasSavedBody" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-TAB TAR-TUN 2027 -->
+        <div id="planPane-tartun" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="font-bold text-sm text-slate-900"><i class="bi bi-cash-coin text-amber-500 me-2"></i>Input Rencana Tarik Tunai 2027 (Sheet Tar-Tun 27)</h3>
+              <p id="tarTun27PaguInfo" class="text-xs text-slate-500 mt-0.5">-</p>
+            </div>
+            <button type="button" id="btnSaveTarTun27" onclick="saveTarTun2027()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow"><i class="bi bi-save me-1"></i>Simpan Rencana Tar-Tun 27</button>
+          </div>
+          <div class="p-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+              <div class="flex justify-between items-center"><h4 class="font-bold text-xs uppercase text-slate-700">Tahap 1 (Januari – Juni)</h4><span id="tt27Selisih1" class="text-xs font-extrabold">Selisih: Rp 0</span></div>
+              <div id="tt27InputsT1" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+              <div class="flex justify-between items-center"><h4 class="font-bold text-xs uppercase text-slate-700">Tahap 2 (Juli – Desember)</h4><span id="tt27Selisih2" class="text-xs font-extrabold">Selisih: Rp 0</span></div>
+              <div id="tt27InputsT2" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-TAB CETAK RKAS -->
+        <div id="planPane-cetak" class="hidden space-y-4">
+          <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="flex items-center gap-2">
+                <label class="text-xs font-bold text-slate-600 whitespace-nowrap"><i class="bi bi-funnel-fill text-blue-600 me-1"></i>Filter Kegiatan (Kolom C):</label>
+                <select id="cetakRkasFilterColC" onchange="renderCetakRKASPreview()" class="rounded-xl border border-slate-300 px-3 py-1.5 text-xs font-semibold bg-white min-w-[240px]">
+                  <option value="ALL">Semua Kelompok Kegiatan (Kolom C)</option>
                 </select>
               </div>
-              <div class="col-md-4 d-none" id="timbosReportSchoolCol">
-                <label class="form-label fw-bold small text-secondary">Pilih Lembaga yang Dipantau</label>
-                <select id="reportSchoolSelect" class="form-select" onchange="loadLaporanData()"></select>
-              </div>
-              <div class="col-md-5">
-                <div id="reportStatusBanner" class="p-2.5 rounded-3 text-center small fw-semibold">Memuat status...</div>
+              <div class="flex items-center gap-2">
+                <label class="text-xs font-bold text-slate-600">Kertas:</label>
+                <select id="cetakRkasPaperSize" onchange="updateCetakRkasPaper()" class="rounded-xl border border-slate-300 px-3 py-1.5 text-xs font-semibold bg-white">
+                  <option value="F4" selected>F4 / Folio</option>
+                  <option value="A4">A4</option>
+                </select>
               </div>
             </div>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="executeRkasExport('PDF')" class="px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold"><i class="bi bi-file-earmark-pdf-fill me-1"></i>Unduh PDF</button>
+              <button type="button" onclick="executeRkasExport('EXCEL')" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold"><i class="bi bi-file-earmark-excel-fill me-1"></i>Unduh Excel</button>
+            </div>
+          </div>
+          <div id="rkasPrintPreviewBox" class="bg-white rounded-2xl border border-slate-300 shadow-md p-6 sm:p-8 paper-f4 overflow-x-auto"></div>
+        </div>
+      </div>
+
+      <!-- VIEW 6: PELAPORAN (2026 & 2027) -->
+      <div id="viewPelaporan" class="hidden space-y-5">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+          <div class="md:col-span-3">
+            <label class="block text-xs font-bold text-slate-600 mb-1.5">Pilih Bulan Pelaporan</label>
+            <select id="reportMonthSelect" onchange="loadPelaporan()" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-semibold bg-white"></select>
+          </div>
+          <div id="reportSchoolSelectWrap" class="hidden md:col-span-4">
+            <label class="block text-xs font-bold text-slate-600 mb-1.5">Pilih Lembaga yang Dipantau</label>
+            <select id="reportSchoolSelect" onchange="loadPelaporan()" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-semibold bg-white"></select>
+          </div>
+          <div class="md:col-span-5">
+            <div id="reportStatusBanner" class="p-2.5 rounded-xl text-center text-xs font-bold">Memuat status...</div>
           </div>
         </div>
 
-        <!-- PANEL UPLOAD BERKAS SPJ (KHUSUS LEMBAGA) -->
-        <div class="card card-elegant mb-3 border-primary-subtle d-none" id="uploadSPJPanel">
-          <div class="card-header bg-primary-subtle text-primary d-flex justify-content-between align-items-center">
-            <span><i class="bi bi-cloud-arrow-up-fill me-2"></i>Upload Berkas / Scan SPJ (PDF / Foto)</span>
-            <span class="small text-muted">Tersimpan otomatis sesuai Nama Lembaga & Bulan</span>
-          </div>
-          <div class="card-body">
-            <div class="row align-items-center g-3">
-              <div class="col-md-7">
-                <input type="file" id="spjFileInput" class="form-control form-control-sm" accept=".pdf,image/*">
-                <div class="form-text">Pilih file scan SPJ bulan berjalan untuk diunggah ke folder resmi Kecamatan Beji.</div>
-              </div>
-              <div class="col-md-5 text-md-end">
-                <button type="button" class="btn btn-primary btn-sm px-4" onclick="uploadSPJToDrive()">
-                  <i class="bi bi-upload me-1"></i> Unggah Berkas SPJ
-                </button>
-              </div>
+        <div id="uploadSpjCard" class="hidden bg-blue-50/70 rounded-2xl border border-blue-200 p-5 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0"><i class="bi bi-cloud-arrow-up-fill text-lg"></i></div>
+            <div>
+              <h3 class="font-bold text-sm text-blue-950">Upload Berkas / Scan SPJ (PDF / Foto)</h3>
+              <p id="spjUploadStatusText" class="text-xs text-blue-800/80 mt-0.5">Tersimpan otomatis ke folder Google Drive Kecamatan Beji.</p>
             </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <input type="file" id="spjFileInput" accept=".pdf,image/*" class="text-xs text-slate-700 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-white file:text-blue-700" />
+            <button type="button" onclick="handleUploadSpj()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow"><i class="bi bi-upload me-1"></i>Unggah SPJ</button>
           </div>
         </div>
 
-        <div class="card card-elegant mb-3">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <span><i class="bi bi-wallet2 text-primary me-2"></i>Data Saldo & Tarik Tunai</span>
-            <span class="badge bg-light text-dark border" id="slotInfoBadge">Kapasitas Baris: 0</span>
-          </div>
-          <div class="card-body">
-            <div class="row g-3">
-              <div class="col-md-3"><label class="form-label small fw-semibold text-secondary">Tunai Bulan Lalu (Kolom C)</label><input type="number" id="inpTunaiLalu" class="form-control" oninput="recalcTotals()"><div class="form-text text-primary" id="hintSaldoLalu"></div></div>
-              <div class="col-md-3"><label class="form-label small fw-semibold text-secondary">Tarik Tunai (Kolom D)</label><input type="number" id="inpTarikTunai" class="form-control" oninput="recalcTotals()"></div>
-              <div class="col-md-3"><label class="form-label small fw-semibold text-secondary">Total Belanja</label><input type="text" id="dispTotalBelanja" class="form-control bg-light fw-bold" readonly></div>
-              <div class="col-md-3"><label class="form-label small fw-semibold text-secondary">Estimasi Saldo Akhir</label><input type="text" id="dispSaldoAkhir" class="form-control bg-light fw-bold text-success" readonly></div>
-            </div>
-          </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tunai Bulan Lalu (Kolom C)</label><input type="number" id="repTunaiLalu" oninput="recalcPelaporan()" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-bold text-right" /></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Tarik Tunai (Kolom D)</label><input type="number" id="repTarikTunai" oninput="recalcPelaporan()" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-bold text-right" /></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Jumlah Belanja (Kolom I)</label><input type="text" id="repTotalBelanja" readonly class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-extrabold text-right text-slate-800" /></div>
+          <div><label class="block text-xs font-semibold text-slate-500 mb-1">Saldo Tunai Akhir (Kolom J)</label><input type="text" id="repSaldoAkhir" readonly class="w-full rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-extrabold text-right text-emerald-700" /></div>
         </div>
 
-        <div class="card card-elegant">
-          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <span><i class="bi bi-list-check text-primary me-2"></i>Rincian Belanja (BarJas & Modal) & Verifikasi Tim BOS</span>
-            <div class="d-flex flex-wrap gap-2">
-              <button type="button" class="btn btn-outline-dark btn-sm" onclick="openPrintModal()"><i class="bi bi-printer me-1"></i> Cetak (PDF / Excel)</button>
-              <button type="button" id="btnAddRow" class="btn btn-outline-primary btn-sm" onclick="addReportRow()"><i class="bi bi-plus-circle me-1"></i> Tambah Baris</button>
-              <button type="button" id="btnSaveLembaga" class="btn btn-success btn-sm" onclick="submitLembagaReport()"><i class="bi bi-save me-1"></i> Simpan Laporan</button>
-              <button type="button" id="btnSaveTimBOS" class="btn btn-warning btn-sm d-none" onclick="submitTimBOSNotes()"><i class="bi bi-check2-circle me-1"></i> Simpan Catatan Tim BOS</button>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="px-5 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <h3 class="font-bold text-sm text-slate-900"><i class="bi bi-list-check text-blue-600 me-2"></i>Rincian Belanja (BarJas &amp; Modal) &amp; Catatan Tim BOS</h3>
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" onclick="openPrintModal()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold"><i class="bi bi-printer me-1"></i>Cetak (PDF/Excel)</button>
+              <button type="button" id="btnAddRepRow" onclick="addPelaporanRow()" class="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold"><i class="bi bi-plus-circle me-1"></i>Tambah Baris</button>
+              <button type="button" id="btnSaveRepLembaga" onclick="savePelaporanLembaga()" class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow"><i class="bi bi-save me-1"></i>Simpan Laporan</button>
+              <button type="button" id="btnSaveRepTimBOS" onclick="saveCatatanTimBOS()" class="hidden px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow"><i class="bi bi-check2-circle me-1"></i>Simpan Catatan Kolom K</button>
             </div>
           </div>
-          <div class="card-body p-0">
-            <div class="table-responsive"><table class="table table-bordered table-sm table-input-sm mb-0 align-middle">
-              <thead class="table-light text-center">
-                <tr><th width="4%">No</th><th width="25%">Uraian BarJas (Kolom E)</th><th width="13%">Nominal BarJas (Kolom F)</th><th width="22%">Uraian Modal (Kolom G)</th><th width="13%">Nominal Modal (Kolom H)</th><th width="19%">Catatan Tim BOS (Kolom K)</th><th width="4%" id="thActionCol">Aksi</th></tr>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs">
+              <thead class="bg-slate-50 text-slate-600 border-b border-slate-200 text-center">
+                <tr>
+                  <th class="p-2.5 w-10">No</th><th class="p-2.5">Uraian BarJas (Kolom E)</th><th class="p-2.5 w-32">Nominal (F)</th>
+                  <th class="p-2.5">Uraian Modal (Kolom G)</th><th class="p-2.5 w-32">Nominal (H)</th><th class="p-2.5 w-52">Catatan Tim BOS (Kolom K)</th>
+                  <th id="thRepAksi" class="p-2.5 w-12">Aksi</th>
+                </tr>
               </thead>
-              <tbody id="reportItemsBody"></tbody>
-            </table></div>
+              <tbody id="pelaporanTableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- MODAL CETAK LAPORAN -->
-  <div class="modal fade" id="printModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg" style="border-radius: 18px;">
-        <div class="modal-header border-bottom-0 pb-0 pt-4 px-4">
-          <h5 class="modal-title fw-bold"><i class="bi bi-printer-fill text-primary me-2"></i>Cetak & Unduh Laporan BOSP</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body px-4 py-3">
-          <div class="p-2.5 bg-light rounded-3 mb-3 small border">
-            <div class="text-muted">Lembaga yang Dicetak:</div>
-            <div class="fw-bold text-dark fs-6" id="printModalSchoolName">-</div>
+      <!-- VIEW 7: CHAT & NOTIFIKASI -->
+      <div id="viewChat" class="hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100 font-bold text-sm text-slate-900"><i class="bi bi-send-fill text-blue-600 me-2"></i>Kirim Pesan / Notifikasi</div>
+            <form onsubmit="sendChatMessage(event)" class="p-5 space-y-4">
+              <div id="chatTargetSchoolWrap">
+                <label class="block text-xs font-bold text-slate-600 mb-1.5">Lembaga Tujuan</label>
+                <select id="chatTargetSchool" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm bg-white"></select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1.5">Kategori Informasi</label>
+                <select id="chatCategory" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm bg-white">
+                  <option value="Kekurangan Data">Kekurangan Data Pendukung</option>
+                  <option value="Pengingat Pekerjaan">Pengingat Pekerjaan / Tenggat</option>
+                  <option value="Masukan / Saran">Masukan / Saran Pembinaan</option>
+                  <option value="Konfirmasi Lembaga">Konfirmasi / Balasan Lembaga</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1.5">Isi Pesan</label>
+                <textarea id="chatMessageInput" rows="4" required class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm" placeholder="Tuliskan catatan kekurangan, masukan, atau pengingat pekerjaan..."></textarea>
+              </div>
+              <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow"><i class="bi bi-send me-1.5"></i>Kirim Notifikasi</button>
+            </form>
           </div>
-          <div class="mb-3">
-            <label class="form-label small fw-bold text-secondary">Pilih Bulan Pelaporan</label>
-            <select id="printMonthSelect" class="form-select">
-              <option value="Januari">Januari 2026</option><option value="Februari">Februari 2026</option><option value="Maret">Maret 2026</option>
-              <option value="April">April 2026</option><option value="Mei">Mei 2026</option><option value="Juni">Juni 2026</option>
-              <option value="Juli">Juli 2026</option><option value="Agustus">Agustus 2026</option><option value="September">September 2026</option>
-              <option value="Oktober">Oktober 2026</option><option value="Nopember">Nopember 2026</option><option value="Desember">Desember 2026</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label small fw-bold text-secondary">Format File Output</label>
-            <div class="row g-2">
-              <div class="col-6"><div class="paper-choice selected text-center" id="choicePdf" onclick="selectExportFormat('PDF')"><i class="bi bi-file-earmark-pdf-fill text-danger fs-3"></i><div class="fw-bold small mt-1">Dokumen PDF</div></div></div>
-              <div class="col-6"><div class="paper-choice text-center" id="choiceExcel" onclick="selectExportFormat('EXCEL')"><i class="bi bi-file-earmark-excel-fill text-success fs-3"></i><div class="fw-bold small mt-1">File Excel (.xlsx)</div></div></div>
+          <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+              <h3 class="font-bold text-sm text-slate-900"><i class="bi bi-chat-dots-fill text-emerald-600 me-2"></i>Riwayat Chat &amp; Notifikasi</h3>
+              <button type="button" onclick="loadChatView(true)" class="text-xs font-semibold text-blue-600 hover:underline"><i class="bi bi-arrow-clockwise me-1"></i>Segarkan</button>
             </div>
-          </div>
-          <div class="row g-2 mb-2">
-            <div class="col-6"><label class="form-label small fw-bold text-secondary">Ukuran Kertas</label><select id="printPaperSize" class="form-select"><option value="F4" selected>F4 / Folio</option><option value="A4">A4</option></select></div>
-            <div class="col-6"><label class="form-label small fw-bold text-secondary">Orientasi</label><select id="printOrientation" class="form-select"><option value="LANDSCAPE" selected>Landscape</option><option value="PORTRAIT">Portrait</option></select></div>
+            <div id="chatMessagesList" class="p-5 space-y-3 max-h-[500px] overflow-y-auto bg-slate-50/50 flex-1"></div>
           </div>
         </div>
-        <div class="modal-footer border-top-0 px-4 pb-4 pt-2">
-          <button type="button" class="btn btn-light px-3" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn btn-primary px-4" onclick="executeExportReport()"><i class="bi bi-download me-1"></i> Unduh File</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL CETAK KOREKSI -->
+  <div id="printModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="font-bold text-base text-slate-900"><i class="bi bi-printer-fill text-blue-600 me-2"></i>Cetak Laporan Koreksi BOSP</h3>
+        <button type="button" onclick="closePrintModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-500 flex items-center justify-center"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="p-6 space-y-4">
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+          <div class="text-slate-500">Lembaga:</div>
+          <div id="printModalSchoolName" class="font-bold text-slate-900 text-sm mt-0.5">-</div>
         </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-600 mb-1.5">Pilih Bulan</label>
+          <select id="printModalMonth" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm bg-white"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <button type="button" id="fmtBtnPDF" onclick="selectPrintFmt('PDF')" class="p-3 rounded-xl border-2 border-blue-600 bg-blue-50 text-center"><i class="bi bi-file-earmark-pdf-fill text-red-600 text-2xl block"></i><span class="text-xs font-bold">Dokumen PDF</span></button>
+          <button type="button" id="fmtBtnEXCEL" onclick="selectPrintFmt('EXCEL')" class="p-3 rounded-xl border-2 border-slate-200 text-center"><i class="bi bi-file-earmark-excel-fill text-emerald-600 text-2xl block"></i><span class="text-xs font-bold">Excel (.xlsx)</span></button>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-bold text-slate-600 mb-1">Ukuran Kertas</label><select id="printModalPaper" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold bg-white"><option value="F4" selected>F4 / Folio</option><option value="A4">A4</option></select></div>
+          <div><label class="block text-xs font-bold text-slate-600 mb-1">Orientasi</label><select id="printModalOrient" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold bg-white"><option value="LANDSCAPE" selected>Landscape</option><option value="PORTRAIT">Portrait</option></select></div>
+        </div>
+      </div>
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-2">
+        <button type="button" onclick="closePrintModal()" class="px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 text-xs font-bold">Batal</button>
+        <button type="button" onclick="executeKoreksiExport()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow"><i class="bi bi-download me-1"></i>Unduh File</button>
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- ==================== SCRIPT PRODUKSI ==================== -->
   <script>
+    // GANTI URL DI BAWAH JIKA DI-HOSTING DI GITHUB PAGES / NETLIFY
     const GAS_URL = "https://script.google.com/macros/s/AKfycbw4bH6X8Rr2D7FpkiRFz3E--gAEhgpW21vyezMj360aDPZTHwFcDJH_Tt35q9i0vlOSqw/exec";
-
-    const DEFAULT_SCHOOLS = [
-      "SDN BAUJENG I BEJI", "SDN BAUJENG II BEJI", "SDN BEJI I BEJI", "SDN BEJI II BEJI",
-      "SDN BEJI IV BEJI", "SDN CANGKRINGMALANG I BEJI", "SDN CANGKRINGMALANG II BEJI",
-      "SDN CANGKRINGMALANG III BEJI", "SDN GAJAH BENDO BEJI", "SDN GLANGGANG I BEJI",
-      "SDN GLANGGANG II BEJI", "SDN GUNUNGGANGSIR I BEJI", "SDN GUNUNGGANGSIR II BEJI",
-      "SDN GUNUNGGANGSIR III BEJI", "SDN GUNUNGSARI I BEJI", "SDN GUNUNGSARI II BEJI",
-      "SDN KEDUNGBOTO BEJI", "SDN KEDUNGRINGIN I BEJI", "SDN KEDUNGRINGIN II BEJI",
-      "SDN KEDUNGRINGIN III BEJI", "SDN KEDUNGRINGIN IV BEJI", "SDN KENEP BEJI",
-      "SDN NGEMBE I BEJI", "SDN PAGAK BEJI", "SDN SIDOWAYAH BEJI", "SDN SUMBERSARI I BEJI",
-      "SDN SUMBERSARI II BEJI", "SD AR-ROUDHOH", "SD ISLAM AZ ZAHRA",
-      "SD ISLAM HASAN MUNADI", "SD ISLAM YASPAI", "SDI DARUSSALAM"
-    ];
-
-    let currentUser = null;
-    let schoolListCache = [...DEFAULT_SCHOOLS];
-    let timbosDashboardCache = null;
-    let tarTunChartInstance = null;
-    let spjUploadChartInstance = null;
-    let currentReportMeta = null;
-    let selectedExportFormat = 'PDF';
-    let printModalInstance = null;
-
     const IS_GAS_NATIVE = (typeof google !== 'undefined' && google.script && google.script.run);
 
-    function populateSchoolDropdown(schools) {
-      if (!Array.isArray(schools) || schools.length === 0) return;
-      schoolListCache = schools;
-      const sel = document.getElementById('selectSchool');
-      const currentVal = sel.value;
-      sel.innerHTML = '<option value="">-- Pilih Nama Lembaga --</option>';
-      schools.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s;
-        opt.textContent = s;
-        sel.appendChild(opt);
-      });
-      if (currentVal) sel.value = currentVal;
+    const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','Nopember','Desember'];
+    let schoolListCache = [];
+    let currentLoginRole = 'LEMBAGA';
+    let currentUser = null;
+    let activeYear = '2027';
+    let activeView = 'dashboard';
+    let unreadNotifCount = 0;
+
+    // Cache data dari server
+    let timbosDashCache = null;
+    let supervisiCache = null;
+    let rkasAnalyticsMode = 'REKENING';
+    let rkasRefKegiatan = [];
+    let rkasRefKodeRek = [];
+    let rkasCurrentBarangList = [];
+    let rkasSavedList = [];
+    let rkasPaguRak = { total: 0, barjas: 0, mesin: 0, aset: 0 };
+    let rkasTarTun27 = null;
+    let currentReportMeta = null;
+    let editingRkasId = null;
+    let printModalFmt = 'PDF';
+
+    // Tom Select & Chart Instances
+    let tsLoginSchool, tsRkasKegiatan, tsRkasKodeRek, tsRkasKodeBrg;
+    let chartTarTun, chartSpjMonitor, chartCapaianSpj, chartCapaianKoreksi, chartRkasAnalytics;
+
+    // ==================== HELPER ====================
+    function showLoading(txt) {
+      document.getElementById('loadingText').innerText = txt || 'Memproses data...';
+      document.getElementById('loadingOverlay').classList.remove('hidden');
+    }
+    function hideLoading() { document.getElementById('loadingOverlay').classList.add('hidden'); }
+    function formatRupiah(n) { return 'Rp ' + (Number(n) || 0).toLocaleString('id-ID'); }
+    function escapeHtml(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function showToast(msg, type = 'info') {
+      const colors = { success: 'bg-emerald-600 text-white', danger: 'bg-red-600 text-white', warning: 'bg-amber-500 text-white', info: 'bg-slate-900 text-white' };
+      const icons = { success: 'bi-check-circle-fill', danger: 'bi-exclamation-triangle-fill', warning: 'bi-exclamation-circle-fill', info: 'bi-info-circle-fill' };
+      const el = document.createElement('div');
+      el.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-lg text-xs font-semibold transition-all duration-300 ${colors[type] || colors.info}`;
+      el.innerHTML = `<i class="bi ${icons[type] || icons.info} text-sm shrink-0"></i><span>${escapeHtml(msg)}</span>`;
+      document.getElementById('toastContainer').appendChild(el);
+      setTimeout(() => { el.classList.add('opacity-0', 'translate-y-2'); setTimeout(() => el.remove(), 300); }, 3500);
     }
 
     async function callGAS(action, payload = {}) {
       if (IS_GAS_NATIVE) {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
           google.script.run
-            .withSuccessHandler(res => resolve(res))
+            .withSuccessHandler(resolve)
             .withFailureHandler(err => resolve({ success: false, message: err.message || err.toString() }))
             .clientRequest(action, payload);
         });
       }
-
       try {
-        const response = await fetch(`${GAS_URL}?action=${encodeURIComponent(action)}`, {
-          method: "POST",
-          redirect: "follow",
-          body: JSON.stringify({ action: action, ...payload }),
-          headers: { "Content-Type": "text/plain;charset=utf-8" }
+        const resp = await fetch(`${GAS_URL}?action=${encodeURIComponent(action)}`, {
+          method: 'POST', redirect: 'follow',
+          body: JSON.stringify({ action, ...payload }),
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' }
         });
-        const text = await response.text();
-        return JSON.parse(text);
+        return JSON.parse(await resp.text());
       } catch (err) {
-        console.error("GAS Error:", err);
         return { success: false, message: err.toString() };
       }
     }
 
+    function downloadBase64File(fileObj) {
+      const byteChars = atob(fileObj.base64);
+      const byteArray = new Uint8Array(byteChars.length);
+      for (let i = 0; i < byteChars.length; i++) byteArray[i] = byteChars.charCodeAt(i);
+      const blob = new Blob([byteArray], { type: fileObj.mimeType });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = fileObj.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // ==================== INISIALISASI ====================
     window.onload = async function() {
-      const modalEl = document.getElementById('printModal');
-      if (modalEl && typeof bootstrap !== 'undefined') {
-        printModalInstance = new bootstrap.Modal(modalEl);
-      }
+      tsLoginSchool = new TomSelect('#loginSchoolSelect', {
+        valueField: 'name', labelField: 'name', searchField: ['name', 'npsn'],
+        options: [], placeholder: 'Memuat daftar lembaga...'
+      });
 
-      populateSchoolDropdown(DEFAULT_SCHOOLS);
-
-      try {
-        if (IS_GAS_NATIVE) {
-          google.script.run
-            .withSuccessHandler(schools => {
-              if (Array.isArray(schools) && schools.length > 0) populateSchoolDropdown(schools);
-            })
-            .getSchoolList();
-        } else {
-          const response = await fetch(`${GAS_URL}?action=getSchoolList`, { method: "GET", redirect: "follow" });
-          const schools = await response.json();
-          if (Array.isArray(schools) && schools.length > 0) populateSchoolDropdown(schools);
+      tsRkasKegiatan = new TomSelect('#rkasKegiatan', {
+        valueField: 'uraianD', labelField: 'uraianD', searchField: ['uraianD', 'kegiatanC', 'snp', 'kode'],
+        options: [], placeholder: 'Ketik untuk mencari Uraian Kegiatan BOSP (Kolom D)...',
+        onChange: function(val) {
+          const found = rkasRefKegiatan.find(k => k.uraianD === val);
+          document.getElementById('rkasSnpDisplay').value = found ? found.snp : '';
+          document.getElementById('rkasKegiatanCDisplay').value = found ? found.kegiatanC : '';
         }
-      } catch (e) {}
+      });
+
+      tsRkasKodeRek = new TomSelect('#rkasKodeRek', {
+        valueField: 'kode', labelField: 'label', searchField: ['kode', 'label', 'jenis'],
+        options: [], placeholder: 'Ketik / pilih Korek (Penghubung BarJas, Modal & Aset Lain)...',
+        onChange: function() { onRkasKodeRekChange(); }
+      });
+
+      tsRkasKodeBrg = new TomSelect('#rkasKodeBrg', {
+        valueField: 'namaBrg', labelField: 'label', searchField: ['namaBrg', 'label'],
+        options: [], placeholder: 'Pilih Korek terlebih dahulu...',
+        onChange: function() { onRkasKodeBrgChange(); }
+      });
+
+      const repM = document.getElementById('reportMonthSelect');
+      const prtM = document.getElementById('printModalMonth');
+      MONTHS.forEach(m => {
+        repM.innerHTML += `<option value="${m}">${m}</option>`;
+        prtM.innerHTML += `<option value="${m}">${m}</option>`;
+      });
+      addRkasMonthRow('Januari', 1, 'Unit');
+
+      showLoading('Memuat daftar lembaga...');
+      const schools = await callGAS('getSchoolList');
+      hideLoading();
+
+      if (Array.isArray(schools) && schools.length > 0) {
+        schoolListCache = schools;
+        tsLoginSchool.addOptions(schools);
+        tsLoginSchool.settings.placeholder = 'Ketik untuk mencari nama sekolah...';
+        tsLoginSchool.inputState();
+
+        ['reportSchoolSelect', 'planSchoolSelector', 'chatTargetSchool'].forEach(id => {
+          const el = document.getElementById(id);
+          el.innerHTML = schools.map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`).join('');
+        });
+        document.getElementById('supervisiSchoolFilter').innerHTML =
+          '<option value="ALL">Semua Lembaga (Rekap Kec. Beji)</option>' +
+          schools.map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`).join('');
+      } else {
+        showToast('Gagal memuat daftar sekolah dari spreadsheet.', 'danger');
+      }
     };
 
-    function showLoading(text) {
-      document.getElementById('loadingText').innerText = text || 'Memproses...';
-      document.getElementById('loadingOverlay').style.display = 'flex';
+    // ==================== LOGIN ====================
+    function setLoginRole(role) {
+      currentLoginRole = role;
+      document.querySelectorAll('.role-tab').forEach(b => b.className = 'role-tab py-2 px-2 rounded-xl text-xs font-semibold transition text-slate-600 hover:text-slate-900');
+      document.getElementById(`roleTab-${role}`).className = 'role-tab py-2 px-2 rounded-xl text-xs font-semibold transition bg-white text-blue-700 shadow-sm';
+      document.getElementById('loginErrorBox').classList.add('hidden');
+
+      const isLembaga = role === 'LEMBAGA';
+      document.getElementById('loginFieldLembaga').classList.toggle('hidden', !isLembaga);
+      document.getElementById('loginFieldUsername').classList.toggle('hidden', isLembaga);
+
+      const uLbl = document.getElementById('loginUsernameLabel');
+      const uInp = document.getElementById('loginUsernameInput');
+      const pLbl = document.getElementById('loginPasswordLabel');
+
+      if (role === 'LEMBAGA') { pLbl.innerText = 'Password (NPSN)'; }
+      else if (role === 'KS') { uLbl.innerText = 'Username (Format: KS Nama Lembaga)'; uInp.placeholder = 'KS SDN Kedungringin I Beji'; pLbl.innerText = 'Password (NPSN)'; }
+      else if (role === 'TIMBOS') { uLbl.innerText = 'Username Tim BOS'; uInp.placeholder = 'TimBOS'; pLbl.innerText = 'Password Tim BOS'; }
+      else if (role === 'PENGAWAS') { uLbl.innerText = 'Username Pengawas'; uInp.placeholder = 'FK3S Beji'; pLbl.innerText = 'Password Pengawas'; }
     }
 
-    function hideLoading() {
-      document.getElementById('loadingOverlay').style.display = 'none';
-    }
-
-    function formatRupiah(num) {
-      if (num === '' || num === null || isNaN(num)) return 'Rp 0';
-      return 'Rp ' + Number(num).toLocaleString('id-ID');
-    }
-
-    async function handleLogin(e, role) {
+    async function handleLogin(e) {
       e.preventDefault();
-      const alertBox = document.getElementById('loginAlert');
-      alertBox.classList.add('d-none');
+      const errBox = document.getElementById('loginErrorBox');
+      errBox.classList.add('hidden');
 
-      const username = role === 'LEMBAGA' ? document.getElementById('selectSchool').value : document.getElementById('userTimbos').value;
-      const password = role === 'LEMBAGA' ? document.getElementById('passLembaga').value : document.getElementById('passTimbos').value;
-
-      if (role === 'LEMBAGA' && !username) {
-        alertBox.innerText = 'Silakan pilih Nama Lembaga terlebih dahulu.';
-        alertBox.classList.remove('d-none');
-        return;
-      }
+      const username = currentLoginRole === 'LEMBAGA' ? tsLoginSchool.getValue() : document.getElementById('loginUsernameInput').value.trim();
+      const password = document.getElementById('loginPasswordInput').value.trim();
 
       showLoading('Memverifikasi akun...');
-      const res = await callGAS('login', { role, username, password });
+      const res = await callGAS('login', { role: currentLoginRole, username, password });
       hideLoading();
 
       if (!res || !res.success) {
-        alertBox.innerText = (res && res.message) ? res.message : 'Gagal terhubung ke server Apps Script.';
-        alertBox.classList.remove('d-none');
+        document.getElementById('loginErrorText').innerText = (res && res.message) ? res.message : 'Gagal login.';
+        errBox.classList.remove('hidden');
         return;
       }
 
       currentUser = res;
-      document.getElementById('loginSection').classList.add('d-none');
-      document.getElementById('appSection').classList.remove('d-none');
-      document.getElementById('userBadge').innerText = res.name;
-      document.getElementById('roleSubtitle').innerText = res.role === 'TIMBOS' ? 'Verifikator Kecamatan' : 'NPSN: ' + (res.profile ? res.profile.npsn : '-');
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('appSection').classList.remove('hidden');
+      document.getElementById('navUserName').innerText = res.name;
+      const roleLabels = { LEMBAGA: 'Operator Lembaga', KS: 'Kepala Sekolah', TIMBOS: 'Tim BOS Kecamatan', PENGAWAS: 'Pengawas / FK3S' };
+      document.getElementById('navUserRole').innerText = roleLabels[res.role];
 
-      // Tampilkan menu Monitoring Upload SPJ hanya untuk Tim BOS
-      document.getElementById('navSpjMonitorItem').classList.toggle('d-none', res.role !== 'TIMBOS');
-
-      if (res.role === 'TIMBOS') {
-        document.getElementById('timbosReportSchoolCol').classList.remove('d-none');
-        const repSchoolSel = document.getElementById('reportSchoolSelect');
-        repSchoolSel.innerHTML = '';
-        schoolListCache.forEach(s => {
-          const opt = document.createElement('option');
-          opt.value = s;
-          opt.textContent = s;
-          repSchoolSel.appendChild(opt);
-        });
-      } else {
-        document.getElementById('timbosReportSchoolCol').classList.add('d-none');
-      }
+      checkUnreadNotifications();
+      buildNavigation();
       switchView('dashboard');
+      showToast(`Selamat datang, ${res.name}!`, 'success');
     }
 
     function logout() {
       currentUser = null;
-      document.getElementById('passLembaga').value = '';
-      document.getElementById('passTimbos').value = '';
-      document.getElementById('appSection').classList.add('d-none');
-      document.getElementById('loginSection').classList.remove('d-none');
+      document.getElementById('loginPasswordInput').value = '';
+      document.getElementById('appSection').classList.add('hidden');
+      document.getElementById('loginSection').classList.remove('hidden');
     }
 
-    function switchView(viewName) {
-      document.getElementById('navDashboard').classList.toggle('active', viewName === 'dashboard');
-      document.getElementById('navPelaporan').classList.toggle('active', viewName === 'pelaporan');
-      const navSpj = document.getElementById('navSpjMonitor');
-      if (navSpj) navSpj.classList.toggle('active', viewName === 'spjMonitor');
+    // ==================== NAVIGASI ====================
+    function onYearChange() {
+      activeYear = document.getElementById('tahunAnggaranSelect').value;
+      document.querySelectorAll('.activeYearLabel').forEach(el => el.innerText = activeYear);
+      document.querySelectorAll('.activeYearShort').forEach(el => el.innerText = activeYear.slice(2));
+      buildNavigation();
+      if (activeYear === '2026' && activeView === 'perencanaan2027') switchView('dashboard');
+      else switchView(activeView);
+    }
 
-      document.getElementById('viewDashboardLembaga').classList.add('d-none');
-      document.getElementById('viewDashboardTimBOS').classList.add('d-none');
-      document.getElementById('viewSpjMonitorTimBOS').classList.add('d-none');
-      document.getElementById('viewPelaporan').classList.add('d-none');
+    function buildNavigation() {
+      const nav = document.getElementById('mainNavContainer');
+      const badge = unreadNotifCount > 0 ? `<span class="ml-1.5 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-[10px] font-bold">${unreadNotifCount}</span>` : '';
+      const items = [{ id: 'dashboard', icon: 'bi-grid-1x2', label: 'Dashboard' }];
+      if (activeYear === '2027') items.push({ id: 'perencanaan2027', icon: 'bi-clipboard2-data', label: 'Perencanaan 2027' });
+      if (currentUser.role === 'LEMBAGA' || currentUser.role === 'TIMBOS') items.push({ id: 'pelaporan', icon: 'bi-pencil-square', label: 'Pelaporan SPJ' });
+      if (currentUser.role === 'TIMBOS') items.push({ id: 'spjMonitor', icon: 'bi-cloud-check', label: 'Monitoring SPJ' });
+      items.push({ id: 'chat', icon: 'bi-chat-dots', label: 'Chat & Notifikasi' + badge });
 
-      if (viewName === 'dashboard') {
-        if (currentUser.role === 'LEMBAGA') {
-          document.getElementById('viewDashboardLembaga').classList.remove('d-none');
-          loadDashboardLembaga();
-        } else {
-          document.getElementById('viewDashboardTimBOS').classList.remove('d-none');
-          loadDashboardTimBOS();
-        }
-      } else if (viewName === 'spjMonitor' && currentUser.role === 'TIMBOS') {
-        document.getElementById('viewSpjMonitorTimBOS').classList.remove('d-none');
-        loadSPJMonitoring(false);
-      } else if (viewName === 'pelaporan') {
-        document.getElementById('viewPelaporan').classList.remove('d-none');
-        loadLaporanData();
+      nav.innerHTML = items.map(it => {
+        const cls = activeView === it.id ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-300 hover:bg-slate-800 hover:text-white';
+        return `<button type="button" onclick="switchView('${it.id}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 ${cls}"><i class="bi ${it.icon}"></i><span>${it.label}</span></button>`;
+      }).join('');
+    }
+
+    function switchView(viewId) {
+      activeView = viewId;
+      buildNavigation();
+      ['viewDashboardLembaga','viewDashboardTimBOS','viewCapaianSupervisi','viewSpjMonitor','viewPerencanaan2027','viewPelaporan','viewChat'].forEach(id => document.getElementById(id).classList.add('hidden'));
+
+      if (viewId === 'dashboard') {
+        if (currentUser.role === 'LEMBAGA') { document.getElementById('viewDashboardLembaga').classList.remove('hidden'); loadDashboardLembaga(); }
+        else if (currentUser.role === 'TIMBOS') { document.getElementById('viewDashboardTimBOS').classList.remove('hidden'); loadDashboardTimBOS(); }
+        else { document.getElementById('viewCapaianSupervisi').classList.remove('hidden'); loadCapaianSupervisi(); }
+      } else if (viewId === 'perencanaan2027') {
+        document.getElementById('viewPerencanaan2027').classList.remove('hidden');
+        loadPerencanaan2027();
+      } else if (viewId === 'pelaporan') {
+        document.getElementById('viewPelaporan').classList.remove('hidden');
+        loadPelaporan();
+      } else if (viewId === 'spjMonitor') {
+        document.getElementById('viewSpjMonitor').classList.remove('hidden');
+        loadSpjMonitor(false);
+      } else if (viewId === 'chat') {
+        document.getElementById('viewChat').classList.remove('hidden');
+        loadChatView(true);
       }
     }
 
+    // ==================== DASHBOARD LEMBAGA ====================
     async function loadDashboardLembaga() {
-      showLoading('Memuat profil...');
-      const res = await callGAS('getDashboardLembaga', { schoolName: currentUser.name });
+      showLoading(`Memuat dashboard ${activeYear}...`);
+      const res = await callGAS('getDashboardLembaga', { schoolName: currentUser.name, year: activeYear });
       hideLoading();
       if (!res || !res.success) return;
 
-      if (res.profile) {
-        document.getElementById('profNama').innerText = res.profile.namaLembaga;
-        document.getElementById('profNpsn').innerText = res.profile.npsn;
-        document.getElementById('profNoRek').innerText = res.profile.noRekSalur;
-        document.getElementById('profNamaRek').innerText = res.profile.namaRekSalur;
-        document.getElementById('profSiswa').innerText = res.profile.jumlahSiswa + ' Siswa';
-        document.getElementById('profPagu').innerText = formatRupiah(res.profile.pagu1Tahun);
+      const p = res.profile;
+      if (p) {
+        const pagu = activeYear === '2026' ? p.pagu2026 : p.rak2027.total;
+        document.getElementById('profCardTitle').innerText = `Profil Lembaga (Pagu ${activeYear})`;
+        document.getElementById('profNama').innerText = p.name;
+        document.getElementById('profNpsn').innerText = p.npsn;
+        document.getElementById('profNoRek').innerText = p.noRekSalur;
+        document.getElementById('profNamaRek').innerText = p.namaRekSalur;
+        document.getElementById('profSiswa').innerText = `${p.jumlahSiswa} Siswa`;
+        document.getElementById('profPagu').innerText = formatRupiah(pagu);
       }
 
-      const grid = document.getElementById('lembagaMonthStatusGrid');
-      grid.innerHTML = '';
-      res.statusBulan.forEach(item => {
-        const cls = item.terisi ? 'status-box-green' : 'status-box-red';
-        const icon = item.terisi ? 'bi-check-circle-fill' : 'bi-x-circle-fill';
-        grid.innerHTML += `
-          <div class="col-6 col-sm-4 col-md-3">
-            <div class="month-tile ${cls}" onclick="openReportMonth('${item.bulan}')">
-              <div class="fw-bold">${item.bulan}</div>
-              <div class="small mt-1"><i class="bi ${icon} me-1"></i>${item.terisi ? 'Sudah Terisi' : 'Belum Terisi'}</div>
-            </div>
-          </div>`;
-      });
+      document.getElementById('lembagaMonthGrid').innerHTML = res.statusBulan.map(item => {
+        const cls = item.terisi ? 'bg-emerald-50 border-emerald-200 text-emerald-800 hover:bg-emerald-100' : 'bg-red-50 border-red-200 text-red-800 hover:bg-red-100';
+        return `<button type="button" onclick="openMonthReport('${item.bulan}')" class="p-3 rounded-xl border text-center transition ${cls}">
+          <div class="font-bold text-xs">${item.bulan}</div>
+          <div class="text-[11px] mt-1 font-semibold"><i class="bi ${item.terisi ? 'bi-check-circle-fill' : 'bi-x-circle-fill'} me-1"></i>${item.terisi ? 'Terisi' : 'Belum'}</div>
+        </button>`;
+      }).join('');
 
       if (res.tarTun) {
-        document.getElementById('ttPaguTahapBadge').innerText = 'Pagu Per Tahap: ' + formatRupiah(res.tarTun.paguTahap);
-        const t1 = res.tarTun.tahap1;
-        document.getElementById('ttTahap1Body').innerHTML = `<tr><td>${formatRupiah(t1.Januari)}</td><td>${formatRupiah(t1.Pebruari)}</td><td>${formatRupiah(t1.Maret)}</td><td>${formatRupiah(t1.April)}</td><td>${formatRupiah(t1.Mei)}</td><td>${formatRupiah(t1.Juni)}</td><td class="fw-bold ${t1.Selisih === 0 ? 'text-success' : 'text-danger'}">${formatRupiah(t1.Selisih)}</td></tr>`;
-        const t2 = res.tarTun.tahap2;
-        document.getElementById('ttTahap2Body').innerHTML = `<tr><td>${formatRupiah(t2.Juli)}</td><td>${formatRupiah(t2.Agustus)}</td><td>${formatRupiah(t2.September)}</td><td>${formatRupiah(t2.Oktober)}</td><td>${formatRupiah(t2.Nopember)}</td><td>${formatRupiah(t2.Desember)}</td><td class="fw-bold ${t2.Selisih === 0 ? 'text-success' : 'text-danger'}">${formatRupiah(t2.Selisih)}</td></tr>`;
+        const tt = res.tarTun;
+        document.getElementById('lembagaPaguTahapBadge').innerText = `Pagu Per Tahap: ${formatRupiah(tt.paguTahap)}`;
+        document.getElementById('lembagaTarTunT1').innerHTML = `<tr>${tt.bulanan.slice(0,6).map(v=>`<td class="p-2">${v.toLocaleString('id-ID')}</td>`).join('')}<td class="p-2 font-bold ${tt.selisih1===0?'text-emerald-600':'text-red-600'}">${tt.selisih1.toLocaleString('id-ID')}</td></tr>`;
+        document.getElementById('lembagaTarTunT2').innerHTML = `<tr>${tt.bulanan.slice(6,12).map(v=>`<td class="p-2">${v.toLocaleString('id-ID')}</td>`).join('')}<td class="p-2 font-bold ${tt.selisih2===0?'text-emerald-600':'text-red-600'}">${tt.selisih2.toLocaleString('id-ID')}</td></tr>`;
       }
     }
 
-    function openReportMonth(monthLabel, schoolNameOptional) {
-      document.getElementById('reportMonthSelect').value = monthLabel;
-      if (schoolNameOptional && currentUser.role === 'TIMBOS') {
-        document.getElementById('reportSchoolSelect').value = schoolNameOptional;
-      }
+    function openMonthReport(m, schoolNameOpt) {
+      document.getElementById('reportMonthSelect').value = m;
+      if (schoolNameOpt && currentUser.role === 'TIMBOS') document.getElementById('reportSchoolSelect').value = schoolNameOpt;
       switchView('pelaporan');
     }
 
+    // ==================== DASHBOARD TIM BOS ====================
     async function loadDashboardTimBOS() {
-      showLoading('Memuat monitoring Tim BOS...');
-      const res = await callGAS('getDashboardTimBOS');
+      showLoading(`Memuat monitoring Tim BOS (${activeYear})...`);
+      const res = await callGAS('getDashboardTimBOS', { year: activeYear });
       hideLoading();
       if (!res || !res.success) return;
 
-      timbosDashboardCache = res;
-      const filterSel = document.getElementById('chartSchoolFilter');
-      filterSel.innerHTML = '<option value="ALL">Semua Lembaga (Total Kecamatan Beji)</option>';
-      res.tarTunList.forEach(item => { filterSel.innerHTML += `<option value="${item.namaLembaga}">${item.namaLembaga}</option>`; });
+      timbosDashCache = res;
+      const sel = document.getElementById('timbosChartFilter');
+      sel.innerHTML = '<option value="ALL">Semua Lembaga (Total Kec. Beji)</option>' +
+        res.tarTunList.map(x => `<option value="${escapeHtml(x.namaLembaga)}">${escapeHtml(x.namaLembaga)}</option>`).join('');
       renderTimBOSChart();
 
-      const tbody = document.getElementById('timbosMatrixBody');
-      tbody.innerHTML = '';
-      res.tarTunList.forEach((item, idx) => {
-        let monthCells = '';
-        res.months.forEach(m => {
-          const isFilled = res.matrix[item.namaLembaga] && res.matrix[item.namaLembaga][m];
-          monthCells += `<td class="${isFilled ? 'cell-green' : 'cell-red'}" onclick="openReportMonth('${m}', '${item.namaLembaga}')">${isFilled ? 'Sudah' : 'Belum'}</td>`;
-        });
-        tbody.innerHTML += `<tr><td class="text-center">${idx + 1}</td><td class="fw-semibold text-nowrap">${item.namaLembaga}</td>${monthCells}<td class="text-center">${item.valid ? '<span class="badge bg-success-subtle text-success border">Lengkap</span>' : '<span class="badge bg-warning-subtle text-warning border">Cek</span>'}</td></tr>`;
-      });
+      document.getElementById('timbosMatrixBody').innerHTML = res.tarTunList.map((item, i) => {
+        const cells = res.months.map(m => {
+          const filled = res.matrix[item.namaLembaga] && res.matrix[item.namaLembaga][m];
+          return `<td onclick="openMonthReport('${m}','${escapeHtml(item.namaLembaga)}')" class="p-2 text-center font-bold cursor-pointer ${filled ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}">${filled ? 'Sudah' : 'Belum'}</td>`;
+        }).join('');
+        return `<tr class="hover:bg-slate-50"><td class="p-2 text-center">${i+1}</td><td class="p-2 font-semibold whitespace-nowrap">${escapeHtml(item.namaLembaga)}</td>${cells}<td class="p-2 text-center"><span class="px-2 py-0.5 rounded-full text-[11px] font-bold ${item.valid ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}">${item.valid ? 'Sesuai' : 'Cek'}</span></td></tr>`;
+      }).join('');
     }
 
     function renderTimBOSChart() {
-      if (!timbosDashboardCache) return;
-      const selected = document.getElementById('chartSchoolFilter').value;
-      let datasetValues = selected === 'ALL' ? timbosDashboardCache.monthlyTotals : (timbosDashboardCache.tarTunList.find(x => x.namaLembaga === selected)?.bulanan || []);
-
-      if (tarTunChartInstance) tarTunChartInstance.destroy();
-      tarTunChartInstance = new Chart(document.getElementById('tarTunChart').getContext('2d'), {
+      if (!timbosDashCache) return;
+      const sel = document.getElementById('timbosChartFilter').value;
+      const dataVals = sel === 'ALL' ? timbosDashCache.monthlyTotals : (timbosDashCache.tarTunList.find(x => x.namaLembaga === sel)?.bulanan || []);
+      if (chartTarTun) chartTarTun.destroy();
+      chartTarTun = new Chart(document.getElementById('tarTunChartCanvas'), {
         type: 'bar',
-        data: {
-          labels: timbosDashboardCache.months,
-          datasets: [{ label: 'Rencana Tarik Tunai (Rp)', data: datasetValues, backgroundColor: 'rgba(37, 99, 235, 0.82)', borderRadius: 8 }]
-        },
+        data: { labels: timbosDashCache.months, datasets: [{ label: sel === 'ALL' ? 'Total Rencana Tarik Tunai (Rp)' : sel, data: dataVals, backgroundColor: '#2563eb', borderRadius: 6 }] },
         options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { callback: v => 'Rp ' + v.toLocaleString('id-ID') } } } }
       });
     }
 
-    // ==================== FUNGSI MONITORING UPLOAD SPJ (KHUSUS TIM BOS) ====================
-    async function loadSPJMonitoring(forceRefresh) {
-      showLoading('Memindai berkas SPJ lembaga di Google Drive...');
-      const res = await callGAS('getSPJMonitoringData', { forceRefresh: !!forceRefresh });
+    // ==================== CAPAIAN SUPERVISI (PENGAWAS & KS) ====================
+    async function loadCapaianSupervisi() {
+      const isKS = currentUser.role === 'KS';
+      document.getElementById('supervisiRoleBadge').innerText = isKS ? 'Kepala Sekolah' : 'Pengawas / FK3S Beji';
+      document.getElementById('supervisiLockBadge').classList.toggle('hidden', !isKS);
+      document.getElementById('pengawasSchoolFilterWrap').classList.toggle('hidden', isKS);
+      document.getElementById('ksApprovalActions').classList.toggle('hidden', !isKS);
+
+      const schoolFilter = isKS ? currentUser.schoolObj.name : document.getElementById('supervisiSchoolFilter').value;
+      document.getElementById('supervisiTitle').innerText = isKS ? `Capaian Tugas — ${currentUser.schoolObj.name}` : (schoolFilter === 'ALL' ? 'Supervisi Capaian Seluruh Lembaga Kec. Beji' : `Supervisi — ${schoolFilter}`);
+
+      showLoading('Memuat grafik capaian tugas...');
+      const res = await callGAS('getCapaianSupervisi', { year: activeYear, schoolFilter });
       hideLoading();
+      if (!res || !res.success) return;
 
-      if (!res || !res.success) {
-        alert('Gagal memuat data monitoring SPJ: ' + (res ? res.message : 'Error tidak diketahui'));
-        return;
-      }
+      supervisiCache = res;
+      document.getElementById('rkasApprovalStatusText').innerText = res.approvalSummary;
 
-      document.getElementById('spjStatTotalSchools').innerText = res.totalSchools + ' Lembaga';
-      const totalUploadedFiles = res.uploadedPerMonth.reduce((a, b) => a + b, 0);
-      document.getElementById('spjStatUploadedTotal').innerText = totalUploadedFiles + ' Laporan Bulan';
+      if (chartCapaianSpj) chartCapaianSpj.destroy();
+      chartCapaianSpj = new Chart(document.getElementById('chartCapaianSpj'), {
+        type: 'bar',
+        data: { labels: res.months.map(m => m.slice(0,3)), datasets: [{ label: 'Sudah Upload SPJ', data: res.spjCounts, backgroundColor: '#10b981', borderRadius: 5 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: Math.max(1, res.totalSchools) } } }
+      });
 
-      const btnFolder = document.getElementById('btnOpenDriveFolder');
-      if (res.folderUrl) {
-        btnFolder.href = res.folderUrl;
-        btnFolder.classList.remove('disabled');
-      }
+      if (chartCapaianKoreksi) chartCapaianKoreksi.destroy();
+      chartCapaianKoreksi = new Chart(document.getElementById('chartCapaianKoreksi'), {
+        type: 'bar',
+        data: { labels: res.months.map(m => m.slice(0,3)), datasets: [{ label: 'Sudah Input Koreksi', data: res.korCounts, backgroundColor: '#2563eb', borderRadius: 5 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: Math.max(1, res.totalSchools) } } }
+      });
 
-      // Render Grafik Progres Upload SPJ
-      if (spjUploadChartInstance) spjUploadChartInstance.destroy();
-      spjUploadChartInstance = new Chart(document.getElementById('spjUploadChart').getContext('2d'), {
+      renderRkasAnalytics();
+    }
+
+    function setRkasAnalyticsMode(mode) {
+      rkasAnalyticsMode = mode;
+      document.querySelectorAll('.rkas-mode-btn').forEach(b => b.className = 'rkas-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600');
+      document.getElementById(`rkasMode-${mode}`).className = 'rkas-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-blue-700 shadow-sm';
+      renderRkasAnalytics();
+    }
+
+    function renderRkasAnalytics() {
+      if (!supervisiCache) return;
+      const grouped = {};
+      let grand = 0;
+      supervisiCache.rkasItems.forEach(it => {
+        grand += it.total;
+        let key = it.jenis;
+        if (rkasAnalyticsMode === 'KODE_REK') key = `${it.kodeRek} — ${it.namaRek.slice(0,30)}`;
+        else if (rkasAnalyticsMode === 'KEGIATAN') key = it.kegiatanC || it.kegiatanD;
+        else if (rkasAnalyticsMode === 'SNP') key = it.snp;
+        grouped[key] = (grouped[key] || 0) + it.total;
+      });
+
+      const labels = Object.keys(grouped);
+      const values = Object.values(grouped);
+      if (chartRkasAnalytics) chartRkasAnalytics.destroy();
+      chartRkasAnalytics = new Chart(document.getElementById('chartRkasAnalytics'), {
+        type: 'doughnut',
+        data: { labels, datasets: [{ data: values, backgroundColor: ['#2563eb','#10b981','#f59e0b','#8b5cf6','#ec4899','#06b6d4','#ef4444','#64748b'] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } } }
+      });
+
+      document.getElementById('rkasAnalyticsTableBody').innerHTML = labels.map((lbl, idx) => {
+        const pct = grand > 0 ? ((values[idx] / grand) * 100).toFixed(1) : '0.0';
+        return `<tr><td class="p-2.5 font-medium">${escapeHtml(lbl)}</td><td class="p-2.5 text-right font-bold">${formatRupiah(values[idx])}</td><td class="p-2.5 text-right text-blue-600 font-semibold">${pct}%</td></tr>`;
+      }).join('') || '<tr><td colspan="3" class="p-4 text-center text-slate-400">Belum ada data RKAS 2027.</td></tr>';
+    }
+
+    async function ksActionRkas(status) {
+      showLoading('Menyimpan status pengesahan RKAS...');
+      const res = await callGAS('setRkasApprovalStatus', { npsn: currentUser.schoolObj.npsn, schoolName: currentUser.schoolObj.name, status });
+      hideLoading();
+      showToast(res.message, res.success ? 'success' : 'danger');
+      if (res.success) loadCapaianSupervisi();
+    }
+
+    // ==================== MONITORING SPJ (TIM BOS) ====================
+    async function loadSpjMonitor(forceRefresh) {
+      showLoading('Memindai folder Google Drive SPJ...');
+      const res = await callGAS('getSPJMonitoringData', { year: activeYear, forceRefresh: !!forceRefresh });
+      hideLoading();
+      if (!res || !res.success) { showToast(res ? res.message : 'Gagal memuat SPJ', 'danger'); return; }
+
+      document.getElementById('spjStatSchools').innerText = `${res.totalSchools} Lembaga`;
+      document.getElementById('spjStatUploaded').innerText = `${res.uploadedPerMonth.reduce((a,b)=>a+b,0)} Berkas`;
+      if (res.folderUrl) document.getElementById('btnOpenDriveFolder').href = res.folderUrl;
+
+      if (chartSpjMonitor) chartSpjMonitor.destroy();
+      chartSpjMonitor = new Chart(document.getElementById('spjMonitorChartCanvas'), {
         type: 'bar',
         data: {
           labels: res.months,
           datasets: [
-            {
-              label: 'Sudah Upload SPJ (Lembaga)',
-              data: res.uploadedPerMonth,
-              backgroundColor: 'rgba(16, 185, 129, 0.85)',
-              borderRadius: 6
-            },
-            {
-              label: 'Belum Upload SPJ (Lembaga)',
-              data: res.notUploadedPerMonth,
-              backgroundColor: 'rgba(239, 68, 68, 0.75)',
-              borderRadius: 6
-            }
+            { label: 'Sudah Upload SPJ', data: res.uploadedPerMonth, backgroundColor: '#10b981', borderRadius: 5 },
+            { label: 'Belum Upload SPJ', data: res.notUploadedPerMonth, backgroundColor: '#ef4444', borderRadius: 5 }
           ]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: res.totalSchools,
-              ticks: { stepSize: 4 }
-            }
-          }
-        }
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: res.totalSchools } } }
       });
 
-      // Render Tabel Matriks SPJ
-      const tbody = document.getElementById('spjMonitorMatrixBody');
-      tbody.innerHTML = '';
-
-      res.schools.forEach((school, idx) => {
-        let cellsHtml = '';
-        let schoolUploadCount = 0;
-
-        res.months.forEach(m => {
-          const info = res.spjMatrix[school] && res.spjMatrix[school][m]
-            ? res.spjMatrix[school][m]
-            : { uploaded: false, count: 0, fileUrl: '' };
-
-          if (info.uploaded) {
-            schoolUploadCount++;
-            cellsHtml += `<td class="cell-green" title="Klik untuk melihat file: ${escapeHtml(info.fileName)}" onclick="window.open('${info.fileUrl}', '_blank')"><i class="bi bi-file-earmark-check me-1"></i>Sudah</td>`;
-          } else {
-            cellsHtml += `<td class="cell-red" title="Belum ada berkas SPJ ${school} bulan ${m}">Belum</td>`;
+      document.getElementById('spjMonitorTableBody').innerHTML = res.schools.map((sch, i) => {
+        let cnt = 0;
+        const cells = res.months.map(m => {
+          const info = res.spjMatrix[sch][m];
+          if (info && info.uploaded) {
+            cnt++;
+            return `<td onclick="window.open('${info.fileUrl}','_blank')" class="p-2 text-center bg-emerald-500 hover:bg-emerald-600 text-white font-bold cursor-pointer" title="${escapeHtml(info.fileName)}"><i class="bi bi-file-earmark-check"></i></td>`;
           }
-        });
-
-        const badgeClass = schoolUploadCount === 12
-          ? 'bg-success text-white'
-          : (schoolUploadCount > 0 ? 'bg-primary-subtle text-primary border' : 'bg-danger-subtle text-danger border');
-
-        tbody.innerHTML += `
-          <tr>
-            <td class="text-center">${idx + 1}</td>
-            <td class="fw-semibold text-nowrap">${school}</td>
-            ${cellsHtml}
-            <td class="text-center"><span class="badge ${badgeClass}">${schoolUploadCount} / 12 Bulan</span></td>
-          </tr>
-        `;
-      });
+          return `<td class="p-2 text-center bg-red-500 text-white">Belum</td>`;
+        }).join('');
+        return `<tr><td class="p-2 text-center">${i+1}</td><td class="p-2 font-semibold whitespace-nowrap">${escapeHtml(sch)}</td>${cells}<td class="p-2 text-center font-bold text-blue-700">${cnt}/12</td></tr>`;
+      }).join('');
     }
 
-    async function loadLaporanData() {
-      const monthLabel = document.getElementById('reportMonthSelect').value;
-      const schoolName = currentUser.role === 'LEMBAGA' ? currentUser.name : document.getElementById('reportSchoolSelect').value;
-      if (!schoolName) return;
+    // ==================== PERENCANAAN TA 2027 ====================
+    function getActive2027SchoolObj() {
+      if (currentUser.role === 'LEMBAGA' || currentUser.role === 'KS') return currentUser.schoolObj;
+      const name = document.getElementById('planSchoolSelector').value;
+      return schoolListCache.find(s => s.name === name) || schoolListCache[0];
+    }
 
-      showLoading(`Memuat laporan ${schoolName}...`);
-      const res = await callGAS('getLaporanDetail', { schoolName, monthLabel });
-      hideLoading();
-      if (!res || !res.success) { alert(res ? res.message : 'Gagal memuat data.'); return; }
+    function switchPlanSubTab(tab) {
+      ['rkas','tartun','cetak'].forEach(t => {
+        document.getElementById(`planPane-${t}`).classList.toggle('hidden', t !== tab);
+        document.getElementById(`planTab-${t}`).className = t === tab
+          ? 'plan-subtab px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-sm'
+          : 'plan-subtab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100';
+      });
+      if (tab === 'tartun') renderTarTun2027Form();
+      if (tab === 'cetak') renderCetakRKASPreview();
+    }
 
-      currentReportMeta = res;
+    async function loadPerencanaan2027() {
       const isLembaga = currentUser.role === 'LEMBAGA';
+      document.getElementById('planSchoolSelectorWrap').classList.toggle('hidden', isLembaga || currentUser.role === 'KS');
+      document.getElementById('rkasInputFormCard').classList.toggle('hidden', !isLembaga);
+      document.getElementById('thRkasAction').classList.toggle('hidden', !isLembaga);
 
-      document.getElementById('uploadSPJPanel').classList.toggle('d-none', !isLembaga);
+      const sch = getActive2027SchoolObj();
+      showLoading('Memuat Pagu RAK 2027 & Referensi Lengkap...');
+      const res = await callGAS('getRkasInit2027', { npsn: sch.npsn, schoolName: sch.name });
+      hideLoading();
+      if (!res || !res.success) { showToast('Gagal memuat data RKAS 2027.', 'danger'); return; }
 
-      document.getElementById('inpTunaiLalu').value = res.tunaiBulanLalu || '';
-      document.getElementById('inpTarikTunai').value = res.tarikTunai || '';
-      document.getElementById('inpTunaiLalu').readOnly = !isLembaga;
-      document.getElementById('inpTarikTunai').readOnly = !isLembaga;
+      rkasPaguRak = res.paguRak;
+      rkasRefKegiatan = res.refKegiatan || [];
+      rkasRefKodeRek = res.refKodeRek || [];
+      rkasSavedList = res.rkasData || [];
+      rkasTarTun27 = res.tarTun27;
 
-      const hintEl = document.getElementById('hintSaldoLalu');
-      if (isLembaga && res.saranSaldoLalu > 0 && !res.tunaiBulanLalu) {
-        hintEl.innerHTML = `Saldo akhir bulan lalu: <b>${formatRupiah(res.saranSaldoLalu)}</b> <a href="#" onclick="document.getElementById('inpTunaiLalu').value=${res.saranSaldoLalu};recalcTotals();return false;">(Gunakan)</a>`;
-      } else { hintEl.innerText = ''; }
+      // Isi Searchable Droplist Ref_Kegiatan Kolom D (Uraian murni, tanpa batasan jumlah)
+      tsRkasKegiatan.clearOptions();
+      tsRkasKegiatan.addOptions(rkasRefKegiatan);
 
-      document.getElementById('slotInfoBadge').innerText = `Kapasitas: ${res.maxCapacity} baris`;
-      document.getElementById('btnAddRow').classList.toggle('d-none', !isLembaga);
-      document.getElementById('btnSaveLembaga').classList.toggle('d-none', !isLembaga);
-      document.getElementById('btnSaveTimBOS').classList.toggle('d-none', isLembaga);
-      document.getElementById('thActionCol').classList.toggle('d-none', !isLembaga);
+      // Isi Filter Cetak RKAS (Kolom C)
+      const colCSel = document.getElementById('cetakRkasFilterColC');
+      const uniqueC = [...new Set(rkasRefKegiatan.map(k => k.kegiatanC))];
+      colCSel.innerHTML = '<option value="ALL">Semua Kelompok Kegiatan (Kolom C)</option>' +
+        uniqueC.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
 
-      const tbody = document.getElementById('reportItemsBody');
-      tbody.innerHTML = '';
-      let activeItems = res.items.filter(it => it.barjasUraian || it.barjasNominal || it.modalUraian || it.modalNominal || it.catatanTimBos);
-      if (activeItems.length === 0) activeItems = res.items.slice(0, 5);
+      // Isi Korek (Penghubung BarJas, Modal & Aset Lain)
+      onRkasJenisChange();
 
-      const hasData = res.items.some(it => it.barjasUraian || Number(it.barjasNominal) > 0 || it.modalUraian || Number(it.modalNominal) > 0);
-      const banner = document.getElementById('reportStatusBanner');
-      banner.className = `p-2.5 rounded-3 text-center small fw-semibold ${hasData ? 'status-box-green' : 'status-box-red'}`;
-      banner.innerHTML = `<i class="bi ${hasData ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'} me-1"></i> STATUS: ${hasData ? 'SUDAH TERISI' : 'BELUM TERISI'} (${schoolName} - ${monthLabel})`;
-
-      activeItems.forEach((item, idx) => appendRowHTML(idx + 1, item));
-      recalcTotals();
+      renderRakCardsAndTable();
+      renderTarTun2027Form();
+      renderCetakRKASPreview();
     }
 
-    async function uploadSPJToDrive() {
-      const fileInput = document.getElementById('spjFileInput');
-      if (fileInput.files.length === 0) {
-        alert('Silakan pilih file berkas SPJ terlebih dahulu!');
+    function renderRakCardsAndTable() {
+      const isLembaga = currentUser.role === 'LEMBAGA';
+      const used = { 'Barang dan Jasa': 0, 'Modal Peralatan dan Mesin': 0, 'Modal Aset Lain': 0 };
+      rkasSavedList.forEach(it => { if (used[it.jenis] !== undefined) used[it.jenis] += it.total; });
+
+      const cards = [
+        { label: 'Belanja Barang dan Jasa', key: 'Barang dan Jasa', pagu: rkasPaguRak.barjas, color: 'blue' },
+        { label: 'Modal Peralatan dan Mesin', key: 'Modal Peralatan dan Mesin', pagu: rkasPaguRak.mesin, color: 'emerald' },
+        { label: 'Modal Aset Lain', key: 'Modal Aset Lain', pagu: rkasPaguRak.aset, color: 'amber' }
+      ];
+
+      document.getElementById('rakPaguCards').innerHTML = cards.map(c => {
+        const sisa = c.pagu - used[c.key];
+        const pct = c.pagu > 0 ? Math.min(100, Math.round((used[c.key] / c.pagu) * 100)) : 0;
+        return `<div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+          <div class="flex justify-between items-start"><div class="text-xs font-bold text-slate-700">${c.label}</div><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100">${pct}%</span></div>
+          <div class="mt-2 flex justify-between text-xs"><span class="text-slate-500">Pagu RAK 2027:</span><span class="font-bold">${formatRupiah(c.pagu)}</span></div>
+          <div class="mt-1 flex justify-between text-xs"><span class="text-slate-500">Dianggarkan:</span><span class="font-semibold text-blue-700">${formatRupiah(used[c.key])}</span></div>
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden my-2.5"><div class="h-full bg-${c.color}-600 rounded-full" style="width:${pct}%"></div></div>
+          <div class="flex justify-between text-xs font-bold ${sisa < 0 ? 'text-red-600' : 'text-emerald-700'}"><span>Sisa Pagu:</span><span>${formatRupiah(sisa)}</span></div>
+        </div>`;
+      }).join('');
+
+      document.getElementById('rkasSavedBody').innerHTML = rkasSavedList.map((it, i) => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-3 text-center text-slate-500">${i+1}</td>
+          <td class="p-3"><div class="font-semibold text-slate-900">${escapeHtml(it.kegiatan)}</div>
+            <div class="flex flex-wrap gap-1 mt-1"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-100 text-[10px] font-semibold">${escapeHtml(it.snp)}</span><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-100 text-[10px] font-semibold">Kolom C: ${escapeHtml(it.kegiatanC)}</span></div>
+          </td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold text-[10px]">${escapeHtml(it.jenis)}</span><div class="text-[11px] text-slate-600 mt-1"><b>${escapeHtml(it.kodeRek)}</b> — ${escapeHtml(it.namaRek)}</div></td>
+          <td class="p-3"><div class="font-semibold">${escapeHtml(it.namaBrg)}</div><div class="text-[11px] text-slate-500">HET: ${formatRupiah(it.het)} &bull; <span class="text-blue-600">${escapeHtml(it.sumber)}</span></div></td>
+          <td class="p-3 text-center whitespace-nowrap">${escapeHtml(it.bulan)}<br><b>${it.jumlah} ${escapeHtml(it.satuan)}</b></td>
+          <td class="p-3 text-right font-extrabold whitespace-nowrap">${formatRupiah(it.total)}</td>
+          ${isLembaga ? `<td class="p-3 text-center whitespace-nowrap">
+            <button type="button" onclick="editRkasItem('${it.id}')" class="p-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 mr-1"><i class="bi bi-pencil"></i></button>
+            <button type="button" onclick="deleteRkasItem('${it.id}')" class="p-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600"><i class="bi bi-trash"></i></button>
+          </td>` : ''}
+        </tr>`).join('') || `<tr><td colspan="${isLembaga ? 7 : 6}" class="p-6 text-center text-slate-400">Belum ada data RKAS 2027.</td></tr>`;
+
+      document.getElementById('rkasCountBadge').innerText = `${rkasSavedList.length} Item RKAS`;
+    }
+
+    function onRkasJenisChange() {
+      const jenis = document.getElementById('rkasJenis').value;
+      const filtered = jenis ? rkasRefKodeRek.filter(x => x.jenis === jenis) : rkasRefKodeRek;
+      const opts = filtered.map(x => ({ kode: x.kode, jenis: x.jenis, label: `${x.kode} — ${x.nama}` }));
+
+      tsRkasKodeRek.clear(true);
+      tsRkasKodeRek.clearOptions();
+      tsRkasKodeRek.addOptions(opts);
+      tsRkasKodeRek.settings.placeholder = `Ketik / pilih Korek (${opts.length} tersedia)...`;
+      tsRkasKodeRek.inputState();
+
+      tsRkasKodeBrg.clear(true);
+      tsRkasKodeBrg.clearOptions();
+      tsRkasKodeBrg.settings.placeholder = 'Pilih Korek terlebih dahulu...';
+      tsRkasKodeBrg.inputState();
+      document.getElementById('rkasHet').value = '';
+      recalcRkasAllMonths();
+    }
+
+    async function onRkasKodeRekChange() {
+      const korek = tsRkasKodeRek.getValue();
+      tsRkasKodeBrg.clear(true);
+      tsRkasKodeBrg.clearOptions();
+      document.getElementById('rkasHet').value = '';
+      if (!korek) return;
+
+      showLoading(`Memuat barang terhubung Korek ${korek}...`);
+      const res = await callGAS('getBarangByKorek', { korek });
+      hideLoading();
+
+      if (!res || !res.success) return;
+      if (res.jenis) document.getElementById('rkasJenis').value = res.jenis;
+      document.getElementById('rkasKodeRekFilterTag').innerText = `Korek Aktif: ${korek} (${res.jenis})`;
+      document.getElementById('rkasBarangSourceTag').innerText = `Terhubung via Korek → ${res.sumberSheet}`;
+
+      rkasCurrentBarangList = res.items || [];
+      const opts = rkasCurrentBarangList.map(b => ({
+        namaBrg: b.namaBrg,
+        label: `${b.namaBrg} (${b.satuan} | HET Max ${formatRupiah(b.het)})`
+      }));
+      tsRkasKodeBrg.addOptions(opts);
+      tsRkasKodeBrg.settings.placeholder = `Ketik / pilih Barang dari ${res.sumberSheet} (${opts.length} item)...`;
+      tsRkasKodeBrg.inputState();
+    }
+
+    function onRkasKodeBrgChange() {
+      const brgName = tsRkasKodeBrg.getValue();
+      const found = rkasCurrentBarangList.find(b => b.namaBrg === brgName);
+      if (found) {
+        document.getElementById('rkasHet').value = found.het;
+        document.getElementById('rkasHetHint').innerText = `Batas HET Maksimal (${found.sumber}): ${formatRupiah(found.het)} / ${found.satuan}`;
+        document.querySelectorAll('.rkas-m-satuan').forEach(el => { if (!el.value || el.value === 'Unit') el.value = found.satuan; });
+      }
+      recalcRkasAllMonths();
+    }
+
+    function addRkasMonthRow(bulanDef = 'Januari', jmlDef = 1, satDef = 'Unit') {
+      const div = document.createElement('div');
+      div.className = 'rkas-month-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200';
+      div.innerHTML = `
+        <div class="col-span-12 sm:col-span-4"><select class="rkas-m-bulan w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs font-semibold bg-white">${MONTHS.map(m=>`<option value="${m}" ${m===bulanDef?'selected':''}>${m}</option>`).join('')}</select></div>
+        <div class="col-span-4 sm:col-span-2"><input type="number" min="1" value="${jmlDef}" oninput="recalcRkasAllMonths()" class="rkas-m-jml w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs font-bold text-right" /></div>
+        <div class="col-span-4 sm:col-span-2"><input type="text" value="${escapeHtml(satDef)}" class="rkas-m-satuan w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs" /></div>
+        <div class="col-span-3 sm:col-span-3"><input type="text" readonly class="rkas-m-total w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-right text-blue-700" value="Rp 0" /></div>
+        <div class="col-span-1 text-right"><button type="button" onclick="this.closest('.rkas-month-row').remove(); recalcRkasAllMonths();" class="p-1.5 rounded-lg text-red-500 hover:bg-red-50"><i class="bi bi-trash"></i></button></div>`;
+      document.getElementById('rkasMonthRowsContainer').appendChild(div);
+      recalcRkasAllMonths();
+    }
+
+    function recalcRkasAllMonths() {
+      const het = Number(document.getElementById('rkasHet').value) || 0;
+      let grand = 0;
+      document.querySelectorAll('.rkas-month-row').forEach(r => {
+        const sub = het * (Number(r.querySelector('.rkas-m-jml').value) || 0);
+        grand += sub;
+        r.querySelector('.rkas-m-total').value = formatRupiah(sub);
+      });
+      document.getElementById('rkasFormGrandTotal').innerText = formatRupiah(grand);
+    }
+
+    async function saveRkasEntry() {
+      const sch = getActive2027SchoolObj();
+      const kegiatan = tsRkasKegiatan.getValue();
+      const snp = document.getElementById('rkasSnpDisplay').value;
+      const kegiatanC = document.getElementById('rkasKegiatanCDisplay').value;
+      const jenis = document.getElementById('rkasJenis').value;
+      const kodeRek = tsRkasKodeRek.getValue();
+      const namaBrg = tsRkasKodeBrg.getValue();
+      const het = Number(document.getElementById('rkasHet').value) || 0;
+
+      if (!kegiatan || !jenis || !kodeRek || !namaBrg || het <= 0) {
+        showToast('Lengkapi Kegiatan, Jenis Rekening, Korek, Barang, dan HET terlebih dahulu!', 'danger');
         return;
       }
 
-      const file = fileInput.files[0];
+      const refBrg = rkasCurrentBarangList.find(b => b.namaBrg === namaBrg);
+      if (refBrg && het > refBrg.het) {
+        showToast(`Harga tidak boleh melebihi batas HET Maksimal (${formatRupiah(refBrg.het)})!`, 'danger');
+        return;
+      }
+
+      const monthEntries = [];
+      document.querySelectorAll('.rkas-month-row').forEach(r => {
+        const jumlah = Number(r.querySelector('.rkas-m-jml').value) || 0;
+        if (jumlah > 0) monthEntries.push({ bulan: r.querySelector('.rkas-m-bulan').value, jumlah, satuan: r.querySelector('.rkas-m-satuan').value.trim() || 'Unit' });
+      });
+      if (monthEntries.length === 0) { showToast('Tambahkan minimal 1 bulan dengan jumlah > 0!', 'danger'); return; }
+
+      const refRek = rkasRefKodeRek.find(r => r.kode === kodeRek);
+      showLoading('Memvalidasi Pagu RAK & menyimpan RKAS 2027...');
+      const res = await callGAS('saveRKASData', {
+        payload: {
+          editingId: editingRkasId, npsn: sch.npsn, kegiatanC, kegiatan, snp, jenis, kodeRek,
+          namaRek: refRek ? refRek.nama : kodeRek, namaBrg,
+          sumber: refBrg ? refBrg.sumber : 'Ref_BarJas_2027', het, monthEntries
+        }
+      });
+      hideLoading();
+      showToast(res.message, res.success ? 'success' : 'danger');
+      if (res.success) { cancelEditRkas(); loadPerencanaan2027(); }
+    }
+
+    async function editRkasItem(id) {
+      const it = rkasSavedList.find(x => x.id === id);
+      if (!it) return;
+      editingRkasId = id;
+      document.getElementById('rkasFormTitle').innerText = 'Ubah Item RKAS 2027';
+      document.getElementById('btnSaveRkas').innerHTML = '<i class="bi bi-check2-circle me-1"></i>Simpan Perubahan';
+      document.getElementById('btnCancelEditRkas').classList.remove('hidden');
+
+      tsRkasKegiatan.setValue(it.kegiatan);
+      document.getElementById('rkasSnpDisplay').value = it.snp;
+      document.getElementById('rkasKegiatanCDisplay').value = it.kegiatanC;
+      document.getElementById('rkasJenis').value = it.jenis;
+      onRkasJenisChange();
+      tsRkasKodeRek.setValue(it.kodeRek);
+      await onRkasKodeRekChange();
+      tsRkasKodeBrg.setValue(it.namaBrg);
+      document.getElementById('rkasHet').value = it.het;
+      document.getElementById('rkasMonthRowsContainer').innerHTML = '';
+      addRkasMonthRow(it.bulan, it.jumlah, it.satuan);
+      document.getElementById('rkasInputFormCard').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function cancelEditRkas() {
+      editingRkasId = null;
+      document.getElementById('rkasFormTitle').innerText = 'Form Input RKAS 2027 (Searchable Droplist)';
+      document.getElementById('btnSaveRkas').innerHTML = '<i class="bi bi-save me-1.5"></i>Simpan ke RKAS 2027';
+      document.getElementById('btnCancelEditRkas').classList.add('hidden');
+      tsRkasKegiatan.clear();
+      document.getElementById('rkasSnpDisplay').value = '';
+      document.getElementById('rkasKegiatanCDisplay').value = '';
+      document.getElementById('rkasJenis').value = '';
+      onRkasJenisChange();
+      document.getElementById('rkasMonthRowsContainer').innerHTML = '';
+      addRkasMonthRow('Januari', 1, 'Unit');
+    }
+
+    async function deleteRkasItem(id) {
+      const sch = getActive2027SchoolObj();
+      showLoading('Menghapus item RKAS...');
+      const res = await callGAS('deleteRKASData', { id, npsn: sch.npsn });
+      hideLoading();
+      showToast(res.message, res.success ? 'info' : 'danger');
+      if (res.success) loadPerencanaan2027();
+    }
+
+    function renderTarTun2027Form() {
+      const isLembaga = currentUser.role === 'LEMBAGA';
+      const bulanan = rkasTarTun27 ? rkasTarTun27.bulanan : new Array(12).fill(0);
+      const tahap = rkasTarTun27 ? rkasTarTun27.paguTahap : Math.round(rkasPaguRak.total / 2);
+      document.getElementById('tarTun27PaguInfo').innerText = `Pagu Tahap 1 & Tahap 2: ${formatRupiah(tahap)}`;
+      document.getElementById('btnSaveTarTun27').classList.toggle('hidden', !isLembaga);
+
+      document.getElementById('tt27InputsT1').innerHTML = MONTHS.slice(0,6).map((m,i)=>`<div><label class="block text-[11px] font-semibold text-slate-600 mb-1">${m}</label><input type="number" data-m-idx="${i}" value="${bulanan[i]}" ${isLembaga?'':'readonly'} oninput="recalcTarTun27()" class="tt27-inp w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs font-bold text-right bg-white" /></div>`).join('');
+      document.getElementById('tt27InputsT2').innerHTML = MONTHS.slice(6,12).map((m,i)=>`<div><label class="block text-[11px] font-semibold text-slate-600 mb-1">${m}</label><input type="number" data-m-idx="${i+6}" value="${bulanan[i+6]}" ${isLembaga?'':'readonly'} oninput="recalcTarTun27()" class="tt27-inp w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs font-bold text-right bg-white" /></div>`).join('');
+      recalcTarTun27();
+    }
+
+    function recalcTarTun27() {
+      const tahap = rkasTarTun27 ? rkasTarTun27.paguTahap : Math.round(rkasPaguRak.total / 2);
+      let s1 = 0, s2 = 0;
+      document.querySelectorAll('.tt27-inp').forEach(el => {
+        if (Number(el.dataset.mIdx) < 6) s1 += Number(el.value) || 0; else s2 += Number(el.value) || 0;
+      });
+      const sel1 = tahap - s1, sel2 = tahap - s2;
+      document.getElementById('tt27Selisih1').innerText = `Selisih: ${formatRupiah(sel1)}`;
+      document.getElementById('tt27Selisih1').className = `text-xs font-extrabold ${sel1===0?'text-emerald-600':'text-red-600'}`;
+      document.getElementById('tt27Selisih2').innerText = `Selisih: ${formatRupiah(sel2)}`;
+      document.getElementById('tt27Selisih2').className = `text-xs font-extrabold ${sel2===0?'text-emerald-600':'text-red-600'}`;
+    }
+
+    async function saveTarTun2027() {
+      const sch = getActive2027SchoolObj();
+      const bulanan = new Array(12).fill(0);
+      document.querySelectorAll('.tt27-inp').forEach(el => { bulanan[Number(el.dataset.mIdx)] = Number(el.value) || 0; });
+      showLoading('Menyimpan Tar-Tun 27...');
+      const res = await callGAS('saveTarTun2027', { payload: { schoolName: sch.name, bulanan } });
+      hideLoading();
+      showToast(res.message, res.success ? 'success' : 'danger');
+    }
+
+    function updateCetakRkasPaper() {
+      const s = document.getElementById('cetakRkasPaperSize').value;
+      document.getElementById('rkasPrintPreviewBox').className = `bg-white rounded-2xl border border-slate-300 shadow-md p-6 sm:p-8 overflow-x-auto ${s === 'F4' ? 'paper-f4' : 'paper-a4'}`;
+    }
+
+    function renderCetakRKASPreview() {
+      const sch = getActive2027SchoolObj();
+      const filterColC = document.getElementById('cetakRkasFilterColC').value;
+      const list = filterColC === 'ALL' ? rkasSavedList : rkasSavedList.filter(it => it.kegiatanC === filterColC);
+      const grouped = {};
+      list.forEach(it => { const g = it.kegiatanC || 'Lainnya'; if (!grouped[g]) grouped[g] = []; grouped[g].push(it); });
+
+      let grand = 0, no = 1, rowsHtml = '';
+      Object.keys(grouped).forEach(g => {
+        let sub = 0;
+        rowsHtml += `<tr class="bg-blue-50 font-bold text-blue-900"><td colspan="7" class="p-2">Kelompok Kegiatan (Kolom C): ${escapeHtml(g)}</td></tr>`;
+        grouped[g].forEach(it => {
+          grand += it.total; sub += it.total;
+          rowsHtml += `<tr class="border-b border-slate-200"><td class="p-2 text-center">${no++}</td><td class="p-2">${escapeHtml(it.kegiatan)}<div class="text-[10px] text-slate-500">${escapeHtml(it.snp)}</div></td><td class="p-2"><b>${escapeHtml(it.kodeRek)}</b><div class="text-[10px] text-slate-500">${escapeHtml(it.namaRek)}</div></td><td class="p-2">${escapeHtml(it.namaBrg)}</td><td class="p-2 text-right">${formatRupiah(it.het)}</td><td class="p-2 text-center">${escapeHtml(it.bulan)} (${it.jumlah} ${escapeHtml(it.satuan)})</td><td class="p-2 text-right font-bold">${formatRupiah(it.total)}</td></tr>`;
+        });
+        rowsHtml += `<tr class="bg-slate-50 font-bold"><td colspan="6" class="p-2 text-right">Subtotal ${escapeHtml(g)}</td><td class="p-2 text-right text-blue-700">${formatRupiah(sub)}</td></tr>`;
+      });
+
+      document.getElementById('rkasPrintPreviewBox').innerHTML = `
+        <div class="text-center border-b-2 border-slate-900 pb-3 mb-4">
+          <h4 class="font-extrabold text-sm sm:text-base">RKAS BOSP TAHUN ANGGARAN 2027 — ${escapeHtml(sch.name)}</h4>
+          <p class="text-xs text-slate-500">Korwil Kecamatan Beji &bull; Filter Kolom C: ${escapeHtml(filterColC === 'ALL' ? 'Semua Kelompok' : filterColC)}</p>
+        </div>
+        <table class="w-full text-xs border border-slate-300">
+          <thead class="bg-slate-900 text-white text-center"><tr><th class="p-2">No</th><th class="p-2 text-left">Uraian Kegiatan (Kolom D) &amp; 8 SNP</th><th class="p-2 text-left">Kode Rekening</th><th class="p-2 text-left">Nama Barang</th><th class="p-2 text-right">HET</th><th class="p-2">Bulan / Vol</th><th class="p-2 text-right">Jumlah</th></tr></thead>
+          <tbody>${rowsHtml || '<tr><td colspan="7" class="p-6 text-center text-slate-400">Belum ada data RKAS.</td></tr>'}
+            <tr class="bg-slate-200 font-extrabold"><td colspan="6" class="p-2.5 text-right">TOTAL ANGGARAN</td><td class="p-2.5 text-right">${formatRupiah(grand)}</td></tr>
+          </tbody>
+        </table>`;
+    }
+
+    async function executeRkasExport(format) {
+      const sch = getActive2027SchoolObj();
+      const filterColC = document.getElementById('cetakRkasFilterColC').value;
+      const paperSize = document.getElementById('cetakRkasPaperSize').value;
+      showLoading(`Menyiapkan file RKAS ${format} (${paperSize})...`);
+      const res = await callGAS('generateRkasExport', { payload: { npsn: sch.npsn, schoolName: sch.name, filterColC, format, paperSize } });
+      hideLoading();
+      if (!res || !res.success) { showToast('Gagal ekspor RKAS: ' + (res ? res.message : ''), 'danger'); return; }
+      downloadBase64File(res);
+      showToast('File RKAS 2027 berhasil diunduh!', 'success');
+    }
+
+    // ==================== PELAPORAN & UPLOAD SPJ ====================
+    async function loadPelaporan() {
+      const isLembaga = currentUser.role === 'LEMBAGA';
       const monthLabel = document.getElementById('reportMonthSelect').value;
-      const schoolName = currentUser.name;
+      const schoolName = isLembaga ? currentUser.name : document.getElementById('reportSchoolSelect').value;
 
+      document.getElementById('reportSchoolSelectWrap').classList.toggle('hidden', isLembaga);
+      document.getElementById('uploadSpjCard').classList.toggle('hidden', !isLembaga);
+      document.getElementById('btnAddRepRow').classList.toggle('hidden', !isLembaga);
+      document.getElementById('btnSaveRepLembaga').classList.toggle('hidden', !isLembaga);
+      document.getElementById('btnSaveRepTimBOS').classList.toggle('hidden', isLembaga);
+      document.getElementById('thRepAksi').classList.toggle('hidden', !isLembaga);
+
+      showLoading(`Memuat laporan ${schoolName} (${monthLabel} ${activeYear})...`);
+      const res = await callGAS('getLaporanDetail', { schoolName, monthLabel, year: activeYear });
+      hideLoading();
+      if (!res || !res.success) { showToast(res ? res.message : 'Gagal memuat laporan.', 'danger'); return; }
+
+      currentReportMeta = res;
+      document.getElementById('spjUploadStatusText').innerText = res.spjInfo && res.spjInfo.uploaded ? `Sudah diunggah: ${res.spjInfo.fileName}` : 'Belum ada berkas SPJ yang diunggah untuk bulan ini.';
+
+      document.getElementById('repTunaiLalu').value = res.tunaiBulanLalu || '';
+      document.getElementById('repTarikTunai').value = res.tarikTunai || '';
+      document.getElementById('repTunaiLalu').readOnly = !isLembaga;
+      document.getElementById('repTarikTunai').readOnly = !isLembaga;
+
+      const filled = res.items.filter(it => it.barjasUraian || it.barjasNominal || it.modalUraian || it.modalNominal || it.catatanTimBos);
+      const hasData = res.items.some(it => it.barjasUraian || Number(it.barjasNominal) > 0 || it.modalUraian || Number(it.modalNominal) > 0);
+      const banner = document.getElementById('reportStatusBanner');
+      banner.className = `p-2.5 rounded-xl text-center text-xs font-bold border ${hasData ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-red-50 text-red-800 border-red-200'}`;
+      banner.innerHTML = `<i class="bi ${hasData ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'} me-1.5"></i>STATUS: ${hasData ? 'SUDAH TERISI' : 'BELUM TERISI'} (${schoolName} - ${monthLabel} ${activeYear})`;
+
+      const tbody = document.getElementById('pelaporanTableBody');
+      tbody.innerHTML = '';
+      const rowsToShow = filled.length > 0 ? filled : res.items.slice(0, Math.min(5, res.items.length));
+      rowsToShow.forEach((it, idx) => appendPelaporanRow(idx + 1, it));
+      recalcPelaporan();
+    }
+
+    function appendPelaporanRow(no, it) {
+      const isLembaga = currentUser.role === 'LEMBAGA';
+      const tr = document.createElement('tr');
+      tr.dataset.rowNumber = it.rowNumber || '';
+      tr.innerHTML = `
+        <td class="p-2 text-center text-slate-500 font-semibold rep-no">${no}</td>
+        <td class="p-1.5"><input type="text" value="${escapeHtml(it.barjasUraian)}" ${isLembaga?'':'readonly'} class="rep-bu w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs ${isLembaga?'':'bg-slate-50'}" placeholder="Uraian BarJas..." /></td>
+        <td class="p-1.5"><input type="number" value="${it.barjasNominal}" ${isLembaga?'':'readonly'} oninput="recalcPelaporan()" class="rep-bn w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs text-right ${isLembaga?'':'bg-slate-50'}" placeholder="0" /></td>
+        <td class="p-1.5"><input type="text" value="${escapeHtml(it.modalUraian)}" ${isLembaga?'':'readonly'} class="rep-mu w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs ${isLembaga?'':'bg-slate-50'}" placeholder="Uraian Modal..." /></td>
+        <td class="p-1.5"><input type="number" value="${it.modalNominal}" ${isLembaga?'':'readonly'} oninput="recalcPelaporan()" class="rep-mn w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs text-right ${isLembaga?'':'bg-slate-50'}" placeholder="0" /></td>
+        <td class="p-1.5"><input type="text" value="${escapeHtml(it.catatanTimBos)}" ${!isLembaga?'':'readonly'} class="rep-cat w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs ${!isLembaga?'bg-amber-50/60 border-amber-300':'bg-slate-50 text-slate-500'}" placeholder="${isLembaga?'Diisi Tim BOS':'Catatan kekurangan...'}" /></td>
+        ${isLembaga ? `<td class="p-1.5 text-center"><button type="button" onclick="this.closest('tr').remove(); recalcPelaporan();" class="p-1 text-red-500 hover:bg-red-50 rounded"><i class="bi bi-trash"></i></button></td>` : ''}`;
+      document.getElementById('pelaporanTableBody').appendChild(tr);
+    }
+
+    function addPelaporanRow() {
+      const cnt = document.querySelectorAll('#pelaporanTableBody tr').length;
+      if (currentReportMeta && cnt >= currentReportMeta.maxCapacity) {
+        showToast(`Maksimal baris tersedia di sheet adalah ${currentReportMeta.maxCapacity} baris.`, 'warning');
+        return;
+      }
+      appendPelaporanRow(cnt + 1, { rowNumber: '', barjasUraian: '', barjasNominal: '', modalUraian: '', modalNominal: '', catatanTimBos: '' });
+    }
+
+    function recalcPelaporan() {
+      const lalu = Number(document.getElementById('repTunaiLalu').value) || 0;
+      const tarik = Number(document.getElementById('repTarikTunai').value) || 0;
+      let total = 0;
+      document.querySelectorAll('#pelaporanTableBody tr').forEach((tr, i) => {
+        tr.querySelector('.rep-no').innerText = i + 1;
+        total += (Number(tr.querySelector('.rep-bn').value) || 0) + (Number(tr.querySelector('.rep-mn').value) || 0);
+      });
+      document.getElementById('repTotalBelanja').value = formatRupiah(total);
+      document.getElementById('repSaldoAkhir').value = formatRupiah((lalu + tarik) - total);
+    }
+
+    async function savePelaporanLembaga() {
+      const rowsData = Array.from(document.querySelectorAll('#pelaporanTableBody tr')).map(tr => ({
+        barjasUraian: tr.querySelector('.rep-bu').value.trim(),
+        barjasNominal: tr.querySelector('.rep-bn').value,
+        modalUraian: tr.querySelector('.rep-mu').value.trim(),
+        modalNominal: tr.querySelector('.rep-mn').value
+      })).filter(x => x.barjasUraian || Number(x.barjasNominal) > 0 || x.modalUraian || Number(x.modalNominal) > 0);
+
+      showLoading('Menyimpan laporan ke spreadsheet...');
+      const res = await callGAS('saveLaporanLembaga', {
+        payload: {
+          schoolName: currentUser.name, monthLabel: document.getElementById('reportMonthSelect').value,
+          year: activeYear, tunaiBulanLalu: document.getElementById('repTunaiLalu').value,
+          tarikTunai: document.getElementById('repTarikTunai').value, rowsData
+        }
+      });
+      hideLoading();
+      showToast(res.message, res.success ? 'success' : 'danger');
+      if (res.success) loadPelaporan();
+    }
+
+    async function saveCatatanTimBOS() {
+      const notesData = Array.from(document.querySelectorAll('#pelaporanTableBody tr')).map(tr => ({
+        rowNumber: tr.dataset.rowNumber,
+        catatanTimBos: tr.querySelector('.rep-cat').value
+      })).filter(x => x.rowNumber);
+
+      showLoading('Menyimpan catatan Kolom K...');
+      const res = await callGAS('saveCatatanTimBOS', {
+        payload: {
+          schoolName: document.getElementById('reportSchoolSelect').value,
+          monthLabel: document.getElementById('reportMonthSelect').value,
+          year: activeYear, notesData
+        }
+      });
+      hideLoading();
+      showToast(res.message, res.success ? 'success' : 'danger');
+      if (res.success) loadPelaporan();
+    }
+
+    function handleUploadSpj() {
+      const inp = document.getElementById('spjFileInput');
+      if (!inp.files.length) { showToast('Pilih file PDF/Foto SPJ terlebih dahulu.', 'warning'); return; }
+      const file = inp.files[0];
       showLoading('Mengunggah berkas SPJ ke Google Drive...');
-
       const reader = new FileReader();
       reader.onload = async function(e) {
-        const base64Content = e.target.result.split(',')[1];
         const res = await callGAS('uploadSPJFile', {
           payload: {
-            schoolName: schoolName,
-            monthLabel: monthLabel,
-            base64Data: base64Content,
-            mimeType: file.type,
-            fileName: file.name
+            schoolName: currentUser.name, monthLabel: document.getElementById('reportMonthSelect').value,
+            year: activeYear, base64Data: e.target.result.split(',')[1], mimeType: file.type, fileName: file.name
           }
         });
-
         hideLoading();
-        if (res && res.success) {
-          alert(res.message);
-          fileInput.value = '';
-        } else {
-          alert('Gagal mengunggah: ' + (res ? res.message : 'Error tidak diketahui'));
-        }
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) { inp.value = ''; loadPelaporan(); }
       };
       reader.readAsDataURL(file);
     }
 
-    function appendRowHTML(displayNo, item) {
-      const tbody = document.getElementById('reportItemsBody');
-      const isLembaga = currentUser.role === 'LEMBAGA';
-      const tr = document.createElement('tr');
-      tr.dataset.rowNumber = item.rowNumber || '';
-      tr.innerHTML = `
-        <td class="text-center row-num text-muted fw-semibold">${displayNo}</td>
-        <td><input type="text" class="form-control form-control-sm inp-b-uraian ${isLembaga ? '' : 'readonly bg-light'}" value="${escapeHtml(item.barjasUraian)}" ${isLembaga ? '' : 'readonly'} placeholder="BarJas..."></td>
-        <td><input type="number" class="form-control form-control-sm text-end inp-b-nom ${isLembaga ? '' : 'readonly bg-light'}" value="${item.barjasNominal}" ${isLembaga ? '' : 'readonly'} oninput="recalcTotals()" placeholder="0"></td>
-        <td><input type="text" class="form-control form-control-sm inp-m-uraian ${isLembaga ? '' : 'readonly bg-light'}" value="${escapeHtml(item.modalUraian)}" ${isLembaga ? '' : 'readonly'} placeholder="Modal..."></td>
-        <td><input type="number" class="form-control form-control-sm text-end inp-m-nom ${isLembaga ? '' : 'readonly bg-light'}" value="${item.modalNominal}" ${isLembaga ? '' : 'readonly'} oninput="recalcTotals()" placeholder="0"></td>
-        <td><input type="text" class="form-control form-control-sm inp-catatan ${!isLembaga ? '' : 'readonly bg-light'}" value="${escapeHtml(item.catatanTimBos)}" ${!isLembaga ? '' : 'readonly'} placeholder="Catatan Tim BOS..."></td>
-        ${isLembaga ? `<td class="text-center"><button type="button" class="btn btn-outline-danger btn-sm py-0 px-1" onclick="this.closest('tr').remove(); recalcTotals();"><i class="bi bi-trash"></i></button></td>` : ''}`;
-      tbody.appendChild(tr);
+    // ==================== CHAT & NOTIFIKASI ====================
+    async function checkUnreadNotifications() {
+      if (!currentUser || currentUser.role !== 'LEMBAGA') return;
+      const res = await callGAS('getChatMessages', { role: currentUser.role, schoolName: currentUser.name, markRead: false });
+      if (res && res.success) {
+        unreadNotifCount = res.unreadCount || 0;
+        const banner = document.getElementById('unreadNotifBanner');
+        if (unreadNotifCount > 0) {
+          document.getElementById('unreadNotifText').innerText = `Anda memiliki ${unreadNotifCount} notifikasi baru dari Pengawas / KS / Tim BOS.`;
+          banner.classList.remove('hidden');
+        } else {
+          banner.classList.add('hidden');
+        }
+        buildNavigation();
+      }
     }
 
-    function escapeHtml(text) {
-      if (!text) return '';
-      return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-    }
+    async function loadChatView(markRead) {
+      const isLock = currentUser.role === 'LEMBAGA' || currentUser.role === 'KS';
+      document.getElementById('chatTargetSchoolWrap').classList.toggle('hidden', isLock);
+      if (isLock) document.getElementById('chatTargetSchool').value = currentUser.schoolObj.name;
 
-    function addReportRow() {
-      appendRowHTML(document.querySelectorAll('#reportItemsBody tr').length + 1, { rowNumber: '', barjasUraian: '', barjasNominal: '', modalUraian: '', modalNominal: '', catatanTimBos: '' });
-    }
-
-    function recalcTotals() {
-      const tunaiLalu = Number(document.getElementById('inpTunaiLalu').value) || 0;
-      const tarikTunai = Number(document.getElementById('inpTarikTunai').value) || 0;
-      let totalBelanja = 0;
-      document.querySelectorAll('#reportItemsBody tr').forEach(tr => {
-        totalBelanja += (Number(tr.querySelector('.inp-b-nom').value) || 0) + (Number(tr.querySelector('.inp-m-nom').value) || 0);
+      showLoading('Memuat riwayat chat & notifikasi...');
+      const res = await callGAS('getChatMessages', {
+        role: currentUser.role,
+        schoolName: isLock ? currentUser.schoolObj.name : '',
+        markRead: !!markRead
       });
-      document.getElementById('dispTotalBelanja').value = formatRupiah(totalBelanja);
-      document.getElementById('dispSaldoAkhir').value = formatRupiah((tunaiLalu + tarikTunai) - totalBelanja);
-    }
-
-    async function submitLembagaReport() {
-      const payload = {
-        schoolName: currentUser.name,
-        monthLabel: document.getElementById('reportMonthSelect').value,
-        tunaiBulanLalu: document.getElementById('inpTunaiLalu').value,
-        tarikTunai: document.getElementById('inpTarikTunai').value,
-        rowsData: Array.from(document.querySelectorAll('#reportItemsBody tr')).map(tr => ({
-          barjasUraian: tr.querySelector('.inp-b-uraian').value.trim(),
-          barjasNominal: tr.querySelector('.inp-b-nom').value,
-          modalUraian: tr.querySelector('.inp-m-uraian').value.trim(),
-          modalNominal: tr.querySelector('.inp-m-nom').value
-        })).filter(x => x.barjasUraian || Number(x.barjasNominal) > 0 || x.modalUraian || Number(x.modalNominal) > 0)
-      };
-
-      showLoading('Menyimpan laporan...');
-      const res = await callGAS('saveLaporanLembaga', { payload });
       hideLoading();
-      alert(res ? res.message : 'Terjadi kesalahan');
-      if (res && res.success) loadLaporanData();
+      if (!res || !res.success) return;
+
+      if (markRead && currentUser.role === 'LEMBAGA') {
+        unreadNotifCount = 0;
+        document.getElementById('unreadNotifBanner').classList.add('hidden');
+        buildNavigation();
+      }
+
+      const colors = { 'Kekurangan Data': 'bg-red-100 text-red-700', 'Pengingat Pekerjaan': 'bg-amber-100 text-amber-800', 'Masukan / Saran': 'bg-blue-100 text-blue-700', 'Konfirmasi Lembaga': 'bg-emerald-100 text-emerald-700' };
+      document.getElementById('chatMessagesList').innerHTML = res.messages.slice().reverse().map(c => `
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+            <div class="font-bold text-xs text-slate-900">${escapeHtml(c.fromName)} <span class="text-slate-400 font-normal mx-1">&rarr;</span> <span class="text-blue-700">${escapeHtml(c.targetSchool)}</span></div>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${colors[c.category] || 'bg-slate-100 text-slate-700'}">${escapeHtml(c.category)}</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">${escapeHtml(c.text)}</p>
+          <div class="text-[10px] text-slate-400 mt-2 text-right">${escapeHtml(c.time)}</div>
+        </div>`).join('') || '<div class="text-center text-slate-400 text-xs py-8">Belum ada pesan atau notifikasi.</div>';
     }
 
-    async function submitTimBOSNotes() {
-      const payload = {
-        schoolName: document.getElementById('reportSchoolSelect').value,
-        monthLabel: document.getElementById('reportMonthSelect').value,
-        notesData: Array.from(document.querySelectorAll('#reportItemsBody tr')).map(tr => ({
-          rowNumber: tr.dataset.rowNumber,
-          catatanTimBos: tr.querySelector('.inp-catatan').value
-        })).filter(x => x.rowNumber)
-      };
+    async function sendChatMessage(e) {
+      e.preventDefault();
+      const targetSchool = (currentUser.role === 'LEMBAGA' || currentUser.role === 'KS') ? currentUser.schoolObj.name : document.getElementById('chatTargetSchool').value;
+      const text = document.getElementById('chatMessageInput').value.trim();
+      if (!text) return;
 
-      showLoading('Menyimpan catatan...');
-      const res = await callGAS('saveCatatanTimBOS', { payload });
+      showLoading('Mengirim notifikasi...');
+      const res = await callGAS('sendChatMessage', {
+        payload: { fromRole: currentUser.role, fromName: currentUser.name, targetSchool, category: document.getElementById('chatCategory').value, text }
+      });
       hideLoading();
-      alert(res ? res.message : 'Terjadi kesalahan');
-      if (res && res.success) loadLaporanData();
+      showToast(res.message, res.success ? 'success' : 'danger');
+      if (res.success) { document.getElementById('chatMessageInput').value = ''; loadChatView(false); }
     }
 
+    // ==================== MODAL CETAK KOREKSI ====================
     function openPrintModal() {
-      document.getElementById('printModalSchoolName').innerText = currentUser.role === 'LEMBAGA' ? currentUser.name : (document.getElementById('reportSchoolSelect').value || schoolListCache[0]);
-      printModalInstance.show();
+      const schName = currentUser.role === 'LEMBAGA' ? currentUser.name : (document.getElementById('reportSchoolSelect').value || (schoolListCache[0] ? schoolListCache[0].name : ''));
+      document.getElementById('printModalSchoolName').innerText = schName;
+      document.getElementById('printModalMonth').value = document.getElementById('reportMonthSelect').value || 'Januari';
+      document.getElementById('printModal').classList.remove('hidden');
     }
-
-    function selectExportFormat(fmt) {
-      selectedExportFormat = fmt;
-      document.getElementById('choicePdf').classList.toggle('selected', fmt === 'PDF');
-      document.getElementById('choiceExcel').classList.toggle('selected', fmt === 'EXCEL');
+    function closePrintModal() { document.getElementById('printModal').classList.add('hidden'); }
+    function selectPrintFmt(fmt) {
+      printModalFmt = fmt;
+      document.getElementById('fmtBtnPDF').className = fmt === 'PDF' ? 'p-3 rounded-xl border-2 border-blue-600 bg-blue-50 text-center' : 'p-3 rounded-xl border-2 border-slate-200 text-center';
+      document.getElementById('fmtBtnEXCEL').className = fmt === 'EXCEL' ? 'p-3 rounded-xl border-2 border-blue-600 bg-blue-50 text-center' : 'p-3 rounded-xl border-2 border-slate-200 text-center';
     }
-
-    async function executeExportReport() {
+    async function executeKoreksiExport() {
       const payload = {
         schoolName: document.getElementById('printModalSchoolName').innerText,
-        monthLabel: document.getElementById('printMonthSelect').value,
-        format: selectedExportFormat,
-        paperSize: document.getElementById('printPaperSize').value,
-        orientation: document.getElementById('printOrientation').value
+        monthLabel: document.getElementById('printModalMonth').value,
+        year: activeYear, format: printModalFmt,
+        paperSize: document.getElementById('printModalPaper').value,
+        orientation: document.getElementById('printModalOrient').value
       };
-
-      printModalInstance.hide();
-      showLoading(`Mengunduh file ${payload.format}...`);
-
-      const res = await callGAS('generateReportExport', { payload });
+      closePrintModal();
+      showLoading(`Menyiapkan file ${payload.format} (${payload.paperSize})...`);
+      const res = await callGAS('generateKoreksiExport', { payload });
       hideLoading();
-
-      if (!res || !res.success) { alert('Gagal ekspor: ' + (res ? res.message : 'Error')); return; }
-
-      const byteChars = atob(res.base64);
-      const byteArray = new Uint8Array(byteChars.length);
-      for (let i = 0; i < byteChars.length; i++) byteArray[i] = byteChars.charCodeAt(i);
-      const blob = new Blob([byteArray], { type: res.mimeType });
-
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = res.filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      if (!res || !res.success) { showToast('Gagal ekspor: ' + (res ? res.message : ''), 'danger'); return; }
+      downloadBase64File(res);
+      showToast('Laporan berhasil diunduh!', 'success');
     }
   </script>
 </body>
